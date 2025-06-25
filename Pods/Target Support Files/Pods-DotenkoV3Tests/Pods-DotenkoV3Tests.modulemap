@@ -1,0 +1,6 @@
+framework module Pods_DotenkoV3Tests {
+  umbrella header "Pods-DotenkoV3Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
