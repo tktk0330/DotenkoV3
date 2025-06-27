@@ -1,13 +1,23 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '17.0'
+platform :ios, '16.0'
 
 target 'DotenkoV3' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for DotenkoV3
-  # 例: pod 'Alamofire', '~> 5.0'
-  # 例: pod 'SwiftyJSON', '~> 4.0'
+  
+  # Firebase SDK
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Database'
+  pod 'Firebase/Functions'
+  
+  # Realm Database
+  pod 'RealmSwift'
+  
+  # AdMob
+  pod 'Google-Mobile-Ads-SDK'
 
   target 'DotenkoV3Tests' do
     inherit! :search_paths
