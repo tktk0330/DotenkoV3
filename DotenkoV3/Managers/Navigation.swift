@@ -293,8 +293,9 @@ class NavigationAllViewStateManager: ObservableObject {
             performDismissFullScreen()
         }
         
+        // 遷移状態のリセットのみ行う
+        // currentFullScreenViewはperformDismissFullScreenで適切に処理される
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.currentFullScreenView = nil
             self.isTransitioning = false
         }
     }
@@ -366,7 +367,8 @@ class NavigationAllViewStateManager: ObservableObject {
             // スタックから前のビューを復元
             currentFullScreenView = viewStack.removeLast()
         } else {
-            // スタックが空の場合は全画面表示を終了
+            // スタックが空の場合のみ全画面表示を完全に終了
+            currentFullScreenView = nil
             isFullScreenPresented = false
         }
     }

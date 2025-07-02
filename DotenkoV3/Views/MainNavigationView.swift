@@ -70,15 +70,13 @@ struct MainNavigationView: View {
     /// メインコンテンツエリア
     @ViewBuilder
     private var contentArea: some View {
-        if navigationManager.viewStack.isEmpty {
-            // デフォルトホーム画面
-            createHomeView()
-        } else if let currentView = navigationManager.viewStack.last {
+        if let currentView = navigationManager.viewStack.last {
             // 現在のビュースタックの最上位を表示
             currentView.view
         } else {
-            // フォールバック
-            createHomeView()
+            // スタックが空の場合のフォールバック表示
+            // 初期化処理完了まで空の状態を表示
+            Color.clear
         }
     }
     
@@ -87,6 +85,7 @@ struct MainNavigationView: View {
     /// 初期ビューの設定
     private func setupInitialView() {
         // ホーム画面を初期表示として設定
+        // スタックが空の場合のみホーム画面をプッシュ
         if navigationManager.viewStack.isEmpty {
             navigationManager.push(createHomeView(), animated: false)
         }
