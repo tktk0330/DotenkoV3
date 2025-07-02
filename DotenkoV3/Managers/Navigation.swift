@@ -200,7 +200,10 @@ class NavigationStateManager: ObservableObject {
     /// ルートまでポップ処理の実行
     private func performPopToRoot() {
         isNavigating = true
-        viewStack.removeAll()
+        // ルートビュー（最初の要素）のみを残して他を削除
+        if viewStack.count > 1 {
+            viewStack = Array(viewStack.prefix(1))
+        }
     }
     
     /// 置き換え処理の実行

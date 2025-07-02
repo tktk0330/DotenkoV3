@@ -1,1 +1,179 @@
+name: Unit Tests
 
+# トリガー条件
+on:
+  push:
+    branches: [ main, develop, feature_basicFunctions ]
+  pull_request:
+    branches: [ main, develop ]
+
+# 並列実行の制限
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: macos-14  # Xcode 15.4以降をサポート
+    
+    strategy:
+      matrix:
+        # 複数のiOSバージョンでテスト実行
+        destination: ['platform=iOS Simulator,name=iPhone 15,OS=17.5']
+    
+    steps:
+    # リポジトリのチェックアウト
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 全履歴を取得（必要に応じて）
+    
+    # 機密ファイルの復元
+    - name: Restore Secret Files
+      env:
+        CONFIG_BASE64: ${{ secrets.CONFIG_BASE64 }}
+        GOOGLE_SERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
+        INFO_PLIST_BASE64: ${{ secrets.INFO_PLIST_BASE64 }}
+      run: |
+        # Config.swiftの復元
+        if [ -n "$CONFIG_BASE64" ]; then
+          echo "$CONFIG_BASE64" | base64 --decode > DotenkoV3/Config/Config.swift
+          echo "✅ Config.swift restored from secrets"
+        else
+          echo "⚠️ CONFIG_BASE64 secret not found"
+        fi
+        
+        # Info.plistの復元
+        if [ -n "$INFO_PLIST_BASE64" ]; then
+          echo "$INFO_PLIST_BASE64" | base64 --decode > DotenkoV3/Info.plist
+          echo "✅ Info.plist restored from secrets"
+        else
+          echo "⚠️ INFO_PLIST_BASE64 secret not found, using existing file"
+        fi
+        
+        # GoogleService-Info.plistの復元
+        if [ -n "$GOOGLE_SERVICE_INFO_PLIST_BASE64" ]; then
+          echo "$GOOGLE_SERVICE_INFO_PLIST_BASE64" | base64 --decode > DotenkoV3/GoogleService-Info.plist
+          echo "✅ GoogleService-Info.plist restored from secrets"
+        else
+          echo "⚠️ GOOGLE_SERVICE_INFO_PLIST_BASE64 secret not found"
+          echo "ℹ️ Firebase設定が必要な場合はSecretsに設定してください"
+        fi
+        
+        # ファイルの存在確認
+        echo "📁 Secret files status:"
+        ls -la DotenkoV3/Config/Config.swift DotenkoV3/Info.plist DotenkoV3/GoogleService-Info.plist 2>/dev/null || echo "Some files missing"
+        echo "ℹ️ AdMob設定はConfig.swiftで管理されています"
+    
+    # Xcodeバージョンの設定
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.4'
+    
+    # CocoaPodsのキャッシュ設定
+    - name: Cache CocoaPods
+      uses: actions/cache@v3
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+    
+    # CocoaPodsの依存関係インストール
+    - name: Install CocoaPods dependencies
+      run: |
+        gem install cocoapods
+        pod install --repo-update
+    
+    # Xcodeプロジェクトのビルド設定確認
+    - name: Show Xcode version and available simulators
+      run: |
+        xcodebuild -version
+        xcrun simctl list devicetypes
+        xcrun simctl list runtimes
+    
+    # テストの実行
+    - name: Run Unit Tests
+      run: |
+        xcodebuild test \
+          -workspace DotenkoV3.xcworkspace \
+          -scheme DotenkoV3 \
+          -destination '${{ matrix.destination }}' \
+          -configuration Debug \
+          -enableCodeCoverage YES \
+          -derivedDataPath DerivedData \
+          -resultBundlePath TestResults.xcresult \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGNING_ALLOWED=NO
+    
+    # テスト結果の解析とレポート生成
+    - name: Generate Test Report
+      if: always()  # テストが失敗してもレポートを生成
+      run: |
+        if [ -d "TestResults.xcresult" ]; then
+          xcrun xcresulttool get --format json --path TestResults.xcresult > test_results.json
+          echo "Test results generated"
+        else
+          echo "No test results found"
+        fi
+    
+    # コードカバレッジの生成
+    - name: Generate Code Coverage
+      if: always()
+      run: |
+        if [ -d "DerivedData" ]; then
+          xcrun xccov view --report --json DerivedData/Logs/Test/*.xcresult > coverage.json || true
+          echo "Code coverage generated"
+        else
+          echo "No coverage data found"
+        fi
+    
+    # 機密ファイルのクリーンアップ
+    - name: Cleanup Secret Files
+      if: always()
+      run: |
+        rm -f DotenkoV3/Config/Config.swift DotenkoV3/Info.plist DotenkoV3/GoogleService-Info.plist
+        echo "🧹 Secret files cleaned up"
+    
+    # テスト結果のアーティファクト保存
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-${{ matrix.destination }}
+        path: |
+          TestResults.xcresult
+          test_results.json
+          coverage.json
+        retention-days: 30
+    
+    # テスト失敗時の詳細ログ出力
+    - name: Show Test Failures
+      if: failure()
+      run: |
+        if [ -d "TestResults.xcresult" ]; then
+          xcrun xcresulttool get --format json --path TestResults.xcresult | jq '.issues.testFailureSummaries'
+        fi
+
+  # テスト結果のサマリー作成
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+    
+    steps:
+    - name: Test Summary
+      run: |
+        echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- Branch: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Test Status: ${{ needs.test.result }}" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ needs.test.result }}" == "success" ]; then
+          echo "✅ All tests passed successfully!" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Some tests failed. Check the test job for details." >> $GITHUB_STEP_SUMMARY
+        fi
