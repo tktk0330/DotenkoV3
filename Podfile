@@ -15,10 +15,6 @@ target 'DotenkoV3' do
     # Pods for testing
   end
 
-  target 'DotenkoV3UITests' do
-    # Pods for DotenkoV3UITests
-  end
-
 end
 
 # Xcode 16 CocoaPods workaround

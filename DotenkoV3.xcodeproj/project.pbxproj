@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09C59FBB689A9068F5067617 /* Pods_DotenkoV3_DotenkoV3UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E2F6C048FE0BBC4AF813EE /* Pods_DotenkoV3_DotenkoV3UITests.framework */; };
 		2F80C7FC6FE328F40598889D /* Pods_DotenkoV3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ACC21786522DC45EB01403 /* Pods_DotenkoV3.framework */; };
 		3113FF32F608A33E80C77D21 /* Pods_DotenkoV3Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA6967CC4C1DE315F28A608 /* Pods_DotenkoV3Tests.framework */; };
 /* End PBXBuildFile section */
@@ -20,27 +19,16 @@
 			remoteGlobalIDString = 5DF720452E0AE3070044951D;
 			remoteInfo = DotenkoV3;
 		};
-		5DF720622E0AE3080044951D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5DF7203E2E0AE3070044951D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5DF720452E0AE3070044951D;
-			remoteInfo = DotenkoV3;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		09981A2721495E7079152D22 /* Pods-DotenkoV3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DotenkoV3.debug.xcconfig"; path = "Target Support Files/Pods-DotenkoV3/Pods-DotenkoV3.debug.xcconfig"; sourceTree = "<group>"; };
 		0ABAC93E91F3827D5378D4DF /* Pods-DotenkoV3Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DotenkoV3Tests.debug.xcconfig"; path = "Target Support Files/Pods-DotenkoV3Tests/Pods-DotenkoV3Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		33ACC21786522DC45EB01403 /* Pods_DotenkoV3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DotenkoV3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5747A74EEC4DBFE01C244703 /* Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig"; path = "Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DF720462E0AE3070044951D /* DotenkoV3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DotenkoV3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DF720572E0AE3080044951D /* DotenkoV3Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotenkoV3Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DF720612E0AE3080044951D /* DotenkoV3UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotenkoV3UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		832CBA175A8FDDA3746E2C4A /* Pods-DotenkoV3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DotenkoV3.release.xcconfig"; path = "Target Support Files/Pods-DotenkoV3/Pods-DotenkoV3.release.xcconfig"; sourceTree = "<group>"; };
 		A5C636F0336E3E507144F8DF /* Pods-DotenkoV3Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DotenkoV3Tests.release.xcconfig"; path = "Target Support Files/Pods-DotenkoV3Tests/Pods-DotenkoV3Tests.release.xcconfig"; sourceTree = "<group>"; };
-		BEA8A60D2D21111E980DBAEF /* Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig"; path = "Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig"; sourceTree = "<group>"; };
-		C6E2F6C048FE0BBC4AF813EE /* Pods_DotenkoV3_DotenkoV3UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DotenkoV3_DotenkoV3UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCA6967CC4C1DE315F28A608 /* Pods_DotenkoV3Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DotenkoV3Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -68,11 +56,6 @@
 			path = DotenkoV3Tests;
 			sourceTree = "<group>";
 		};
-		5DF720642E0AE3080044951D /* DotenkoV3UITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = DotenkoV3UITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,14 +75,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5DF7205E2E0AE3080044951D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				09C59FBB689A9068F5067617 /* Pods_DotenkoV3_DotenkoV3UITests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -108,8 +83,6 @@
 			children = (
 				09981A2721495E7079152D22 /* Pods-DotenkoV3.debug.xcconfig */,
 				832CBA175A8FDDA3746E2C4A /* Pods-DotenkoV3.release.xcconfig */,
-				5747A74EEC4DBFE01C244703 /* Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig */,
-				BEA8A60D2D21111E980DBAEF /* Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig */,
 				0ABAC93E91F3827D5378D4DF /* Pods-DotenkoV3Tests.debug.xcconfig */,
 				A5C636F0336E3E507144F8DF /* Pods-DotenkoV3Tests.release.xcconfig */,
 			);
@@ -121,7 +94,6 @@
 			children = (
 				5DF720482E0AE3070044951D /* DotenkoV3 */,
 				5DF7205A2E0AE3080044951D /* DotenkoV3Tests */,
-				5DF720642E0AE3080044951D /* DotenkoV3UITests */,
 				5DF720472E0AE3070044951D /* Products */,
 				0DA6BCDDF4DD1D9C84B0E1B9 /* Pods */,
 				F22FA12C3F2376AE846049A3 /* Frameworks */,
@@ -133,7 +105,6 @@
 			children = (
 				5DF720462E0AE3070044951D /* DotenkoV3.app */,
 				5DF720572E0AE3080044951D /* DotenkoV3Tests.xctest */,
-				5DF720612E0AE3080044951D /* DotenkoV3UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -142,7 +113,6 @@
 			isa = PBXGroup;
 			children = (
 				33ACC21786522DC45EB01403 /* Pods_DotenkoV3.framework */,
-				C6E2F6C048FE0BBC4AF813EE /* Pods_DotenkoV3_DotenkoV3UITests.framework */,
 				DCA6967CC4C1DE315F28A608 /* Pods_DotenkoV3Tests.framework */,
 			);
 			name = Frameworks;
@@ -195,29 +165,6 @@
 			productReference = 5DF720572E0AE3080044951D /* DotenkoV3Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5DF720602E0AE3080044951D /* DotenkoV3UITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5DF720712E0AE3080044951D /* Build configuration list for PBXNativeTarget "DotenkoV3UITests" */;
-			buildPhases = (
-				209079C04363A025B812AF2B /* [CP] Check Pods Manifest.lock */,
-				5DF7205D2E0AE3080044951D /* Sources */,
-				5DF7205E2E0AE3080044951D /* Frameworks */,
-				5DF7205F2E0AE3080044951D /* Resources */,
-				F05922B6EEC81C2D35B2B415 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5DF720632E0AE3080044951D /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				5DF720642E0AE3080044951D /* DotenkoV3UITests */,
-			);
-			name = DotenkoV3UITests;
-			productName = DotenkoV3UITests;
-			productReference = 5DF720612E0AE3080044951D /* DotenkoV3UITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -232,10 +179,6 @@
 						CreatedOnToolsVersion = 16.2;
 					};
 					5DF720562E0AE3080044951D = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 5DF720452E0AE3070044951D;
-					};
-					5DF720602E0AE3080044951D = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 5DF720452E0AE3070044951D;
 					};
@@ -257,7 +200,6 @@
 			targets = (
 				5DF720452E0AE3070044951D /* DotenkoV3 */,
 				5DF720562E0AE3080044951D /* DotenkoV3Tests */,
-				5DF720602E0AE3080044951D /* DotenkoV3UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -277,38 +219,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5DF7205F2E0AE3080044951D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		209079C04363A025B812AF2B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DotenkoV3-DotenkoV3UITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4055039ECBCA30A808C4FBE6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,23 +283,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F05922B6EEC81C2D35B2B415 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -404,13 +300,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5DF7205D2E0AE3080044951D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -418,11 +307,6 @@
 			isa = PBXTargetDependency;
 			target = 5DF720452E0AE3070044951D /* DotenkoV3 */;
 			targetProxy = 5DF720582E0AE3080044951D /* PBXContainerItemProxy */;
-		};
-		5DF720632E0AE3080044951D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5DF720452E0AE3070044951D /* DotenkoV3 */;
-			targetProxy = 5DF720622E0AE3080044951D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -675,52 +559,6 @@
 			};
 			name = Release;
 		};
-		5DF720722E0AE3080044951D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5747A74EEC4DBFE01C244703 /* Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QJ944BX8WL;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dtnk.DotenkoV3UITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = DotenkoV3;
-				XROS_DEPLOYMENT_TARGET = 2.2;
-			};
-			name = Debug;
-		};
-		5DF720732E0AE3080044951D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEA8A60D2D21111E980DBAEF /* Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QJ944BX8WL;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dtnk.DotenkoV3UITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = DotenkoV3;
-				XROS_DEPLOYMENT_TARGET = 2.2;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -747,15 +585,6 @@
 			buildConfigurations = (
 				5DF7206F2E0AE3080044951D /* Debug */,
 				5DF720702E0AE3080044951D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5DF720712E0AE3080044951D /* Build configuration list for PBXNativeTarget "DotenkoV3UITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5DF720722E0AE3080044951D /* Debug */,
-				5DF720732E0AE3080044951D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

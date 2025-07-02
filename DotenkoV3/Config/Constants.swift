@@ -20,7 +20,7 @@ struct Constants {
     
     // MARK: - 画面サイズ・レイアウト
     struct Layout {
-        static let bannerAdHeight: CGFloat = 60 // バナー広告の高さ
+        static let bannerAdHeight: CGFloat = 80 // バナー広告の高さ
         static let tabBarHeight: CGFloat = 83 // タブバーの高さ
         static let cornerRadius: CGFloat = 12 // 角丸の標準値
         static let standardPadding: CGFloat = 16 // 標準パディング

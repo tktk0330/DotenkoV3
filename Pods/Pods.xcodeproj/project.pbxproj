@@ -22,30 +22,20 @@
 
 /* Begin PBXBuildFile section */
 		1493DD91336DE7675C83360B987057DD /* GoogleMobileAdsPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837746640689795BB54F973086CE1EAE /* GoogleMobileAdsPlaceholder.swift */; };
-		1F925617C1CFAD615BC69588C28235EB /* Pods-DotenkoV3Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C1A33BA22739CC59FEEA12046A17A1D3 /* Pods-DotenkoV3Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1F925617C1CFAD615BC69588C28235EB /* Pods-DotenkoV3Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358469ECFEA7B8CC3E20EB84A9EA138 /* Pods-DotenkoV3Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3317DC9751692475C7BF6CA18EE999CE /* Google-Mobile-Ads-SDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C82CB052E442BE450E1415431F9A60D4 /* Google-Mobile-Ads-SDK-dummy.m */; };
-		368DF57A44114AAA2F6F15BFDA2E45E2 /* Pods-DotenkoV3-DotenkoV3UITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC470F92598AD0CB860EBD3FD2CDACB /* Pods-DotenkoV3-DotenkoV3UITests-dummy.m */; };
 		419E412264835570787C18CB06795564 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
 		510E3750BD2A8E80DD85CF7549003D38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		5FDE77A7F1ECC1ABFE83E3657A1F40B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		632D9741D84C1FC3DE0A990BFCEFE891 /* Pods-DotenkoV3Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 09567BB6479D34524C19407E441346A9 /* Pods-DotenkoV3Tests-dummy.m */; };
-		6F699E9A3D7A36D1D92279C8A5F4D651 /* Pods-DotenkoV3-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8548D6A3E87D47B066CB01510E6162 /* Pods-DotenkoV3-dummy.m */; };
+		632D9741D84C1FC3DE0A990BFCEFE891 /* Pods-DotenkoV3Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B31DD3A46CE6CB5F901E96EA0D93A0A /* Pods-DotenkoV3Tests-dummy.m */; };
+		6F699E9A3D7A36D1D92279C8A5F4D651 /* Pods-DotenkoV3-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E076D76E86F76D97DEB0471704C216FB /* Pods-DotenkoV3-dummy.m */; };
 		8D2F92B4124FE8135B22D5DE8B99E8BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		966928F157B6E3A0BC3D9A73CEA1DC47 /* Pods-DotenkoV3-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F1830C8E5E1896FE7A987AF3891B1297 /* Pods-DotenkoV3-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A0470A766E6C54AA06D3BE9ECAE4ADBC /* Pods-DotenkoV3-DotenkoV3UITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 32F6BCE4DC61DBB6F93DF92813D6E347 /* Pods-DotenkoV3-DotenkoV3UITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		966928F157B6E3A0BC3D9A73CEA1DC47 /* Pods-DotenkoV3-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FD716142E23CF582F6C39BDAE22BCCA /* Pods-DotenkoV3-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A7888B6977A7C6C5B379A55369CE64CD /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 50A18E109306BAF831541AA5B4E47979 /* PrivacyInfo.xcprivacy */; };
 		BD90468037AC7AC384A68A4EABE27F84 /* Google-Mobile-Ads-SDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 87421B0407F2349DB2D5C82CA3794AD6 /* Google-Mobile-Ads-SDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3E2E4F930EAA4CDB6A3C1716056B10A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DE66624D7FB7B06FF2E3D35C4D711082 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4C65800CF551A93B9139B429627D949A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FEA3B3A570634836C0457F3D7CEF1699;
-			remoteInfo = "Google-Mobile-Ads-SDK";
-		};
 		4EE90504A00288E507BAD6C5B5888AFE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -81,13 +71,6 @@
 			remoteGlobalIDString = 458B188365A307B3C128ABF524D1A3E3;
 			remoteInfo = GoogleUserMessagingPlatform;
 		};
-		AFEE94D6E29D6B165B0D2BF9F7D43F99 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 458B188365A307B3C128ABF524D1A3E3;
-			remoteInfo = GoogleUserMessagingPlatform;
-		};
 		CFD9361A79C0683B05F636C8E40A19D8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -99,55 +82,45 @@
 
 /* Begin PBXFileReference section */
 		058DA9643E3EAD4930586CB78E3E1F64 /* ResourceBundle-GoogleMobileAdsResources-Google-Mobile-Ads-SDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GoogleMobileAdsResources-Google-Mobile-Ads-SDK-Info.plist"; sourceTree = "<group>"; };
-		09567BB6479D34524C19407E441346A9 /* Pods-DotenkoV3Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DotenkoV3Tests-dummy.m"; sourceTree = "<group>"; };
-		1A3EB912255EEAA92CFC36D95F7B29F4 /* Pods-DotenkoV3-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DotenkoV3-resources.sh"; sourceTree = "<group>"; };
-		1A51620F55DD94E7FC15FC6238EAD56A /* Pods-DotenkoV3Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		24DF67E62DFDD15D2810AC4EA75988A4 /* Pods-DotenkoV3Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		1FD716142E23CF582F6C39BDAE22BCCA /* Pods-DotenkoV3-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DotenkoV3-umbrella.h"; sourceTree = "<group>"; };
 		28EC0D6B45622794297A1133DA37EAEC /* ResourceBundle-UserMessagingPlatformResources-GoogleUserMessagingPlatform-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-UserMessagingPlatformResources-GoogleUserMessagingPlatform-Info.plist"; sourceTree = "<group>"; };
-		2D79B068FC728E707FF9DED4213D69BF /* Pods-DotenkoV3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3.release.xcconfig"; sourceTree = "<group>"; };
+		2A0ED5D58CCBD24673E04C4E4B4DC0F5 /* Pods-DotenkoV3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3.debug.xcconfig"; sourceTree = "<group>"; };
+		2A872EFA2F46881E3958ADA9DD27EBE7 /* Pods-DotenkoV3Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DotenkoV3Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		31ABF05F4F720C8E40F38BAD866EBDC0 /* GoogleUserMessagingPlatform.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleUserMessagingPlatform.release.xcconfig; sourceTree = "<group>"; };
-		32F6BCE4DC61DBB6F93DF92813D6E347 /* Pods-DotenkoV3-DotenkoV3UITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DotenkoV3-DotenkoV3UITests-umbrella.h"; sourceTree = "<group>"; };
-		34A34765426F4D238E7CB6040EE84A72 /* Pods-DotenkoV3-DotenkoV3UITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3-DotenkoV3UITests-Info.plist"; sourceTree = "<group>"; };
 		374CE37236BCC98B8B312C7DA5A4B9E3 /* Pods-DotenkoV3Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-DotenkoV3Tests"; path = Pods_DotenkoV3Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		3998091512768CD07733CB4F02B4BD9F /* Google-Mobile-Ads-SDK-GoogleMobileAdsResources */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Google-Mobile-Ads-SDK-GoogleMobileAdsResources"; path = GoogleMobileAdsResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B15EE47EBFF3EA96C37547C8C83B3F8 /* Pods-DotenkoV3-DotenkoV3UITests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-DotenkoV3-DotenkoV3UITests"; path = Pods_DotenkoV3_DotenkoV3UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BD97D982CAB87B29E6846F927335BF3 /* Google-Mobile-Ads-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Google-Mobile-Ads-SDK.release.xcconfig"; sourceTree = "<group>"; };
 		3CB2870152A11C8D7854F09D9999E402 /* Google-Mobile-Ads-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Google-Mobile-Ads-SDK.debug.xcconfig"; sourceTree = "<group>"; };
-		42CE426BB180B6C6CB05522A54EE0812 /* Pods-DotenkoV3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3.debug.xcconfig"; sourceTree = "<group>"; };
-		4DB9A5DC7626F45693537063F966CE92 /* Pods-DotenkoV3-DotenkoV3UITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DotenkoV3-DotenkoV3UITests.modulemap"; sourceTree = "<group>"; };
+		410A3972976B6CACA95E587A5CDBDF17 /* Pods-DotenkoV3Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DotenkoV3Tests.modulemap"; sourceTree = "<group>"; };
+		4B31DD3A46CE6CB5F901E96EA0D93A0A /* Pods-DotenkoV3Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DotenkoV3Tests-dummy.m"; sourceTree = "<group>"; };
+		4D9B073F3281746820BD90CC90A1D28E /* Pods-DotenkoV3Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3Tests.release.xcconfig"; sourceTree = "<group>"; };
 		50A18E109306BAF831541AA5B4E47979 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = "Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64/GoogleMobileAds.framework/PrivacyInfo.xcprivacy"; sourceTree = "<group>"; };
-		54C7CAC767395EF093B2D320981107C2 /* Pods-DotenkoV3-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3-acknowledgements.plist"; sourceTree = "<group>"; };
-		56BFDF916B797A85466CBF8085E18AD7 /* Pods-DotenkoV3-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DotenkoV3-acknowledgements.markdown"; sourceTree = "<group>"; };
-		5A314A505F83C9F9F78D70DE70984C89 /* Pods-DotenkoV3Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3Tests.release.xcconfig"; sourceTree = "<group>"; };
+		5F14B20A54EE1C75C82755AB64CBC561 /* Pods-DotenkoV3Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		7BBE2B0C28630C727E998777ED1DCF4B /* Google-Mobile-Ads-SDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Google-Mobile-Ads-SDK-Info.plist"; sourceTree = "<group>"; };
+		7BEB3FA75FFF933BCC77B72F750CA414 /* Pods-DotenkoV3-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DotenkoV3-resources.sh"; sourceTree = "<group>"; };
 		837746640689795BB54F973086CE1EAE /* GoogleMobileAdsPlaceholder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GoogleMobileAdsPlaceholder.swift; path = Sources/GoogleMobileAdsPlaceholder.swift; sourceTree = "<group>"; };
-		857C3227E4BF0210936E174EAE5CB117 /* Pods-DotenkoV3.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DotenkoV3.modulemap"; sourceTree = "<group>"; };
 		87421B0407F2349DB2D5C82CA3794AD6 /* Google-Mobile-Ads-SDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Google-Mobile-Ads-SDK-umbrella.h"; sourceTree = "<group>"; };
 		8A377C18F92A8A511869ADA54B5652D2 /* GoogleUserMessagingPlatform-UserMessagingPlatformResources */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "GoogleUserMessagingPlatform-UserMessagingPlatformResources"; path = UserMessagingPlatformResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FBCE96FF45F89EB473BBEC6521C7C7E /* UserMessagingPlatform.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = UserMessagingPlatform.xcframework; path = Frameworks/Release/UserMessagingPlatform.xcframework; sourceTree = "<group>"; };
-		91F44805557C0F3F7BECE2A5D54E9B76 /* Pods-DotenkoV3-DotenkoV3UITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3-DotenkoV3UITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		9358469ECFEA7B8CC3E20EB84A9EA138 /* Pods-DotenkoV3Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DotenkoV3Tests-umbrella.h"; sourceTree = "<group>"; };
 		94E58860FE9DF20A35AACB84AF645624 /* Google-Mobile-Ads-SDK-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Google-Mobile-Ads-SDK-xcframeworks.sh"; sourceTree = "<group>"; };
-		9699BB792E612117478424D68A921607 /* Pods-DotenkoV3Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3Tests-Info.plist"; sourceTree = "<group>"; };
-		9A93DEDAA0707A4F7D35AF001A96EF51 /* Pods-DotenkoV3Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DotenkoV3Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		9B80E203D1995C966134D10C59DD01A0 /* Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig"; sourceTree = "<group>"; };
+		96FB813F5B5CBE87F66A65D56FF94280 /* Pods-DotenkoV3Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3Tests-Info.plist"; sourceTree = "<group>"; };
 		9CE2B1E5F4AFF15A541642B247E71E95 /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GoogleMobileAds.xcframework; path = Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9DE3E0ACD30289066774BD30909669AF /* Pods-DotenkoV3Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DotenkoV3Tests.modulemap"; sourceTree = "<group>"; };
-		AFC470F92598AD0CB860EBD3FD2CDACB /* Pods-DotenkoV3-DotenkoV3UITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DotenkoV3-DotenkoV3UITests-dummy.m"; sourceTree = "<group>"; };
-		BC4FF6CD246D37FF950F06D1ED7B3DA0 /* Pods-DotenkoV3-DotenkoV3UITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DotenkoV3-DotenkoV3UITests-resources.sh"; sourceTree = "<group>"; };
-		C1A33BA22739CC59FEEA12046A17A1D3 /* Pods-DotenkoV3Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DotenkoV3Tests-umbrella.h"; sourceTree = "<group>"; };
+		ADC3B54FD3D899DE6367C0CBEEE19496 /* Pods-DotenkoV3.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DotenkoV3.modulemap"; sourceTree = "<group>"; };
 		C82CB052E442BE450E1415431F9A60D4 /* Google-Mobile-Ads-SDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Google-Mobile-Ads-SDK-dummy.m"; sourceTree = "<group>"; };
-		CB8548D6A3E87D47B066CB01510E6162 /* Pods-DotenkoV3-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DotenkoV3-dummy.m"; sourceTree = "<group>"; };
-		CBB900201399E136509B81D5C93B0960 /* Pods-DotenkoV3-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3-Info.plist"; sourceTree = "<group>"; };
 		CD955D796EF8B0CC603913870EBA011F /* Pods-DotenkoV3 */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-DotenkoV3"; path = Pods_DotenkoV3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF45F9D57515BCF30D241096CD1E7211 /* Pods-DotenkoV3-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DotenkoV3-acknowledgements.markdown"; sourceTree = "<group>"; };
+		D01BCFFFE6B228972A8DB316B103915B /* Pods-DotenkoV3-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3-acknowledgements.plist"; sourceTree = "<group>"; };
+		D03D42DFFBB49A60FEAD3BD0D148304F /* Pods-DotenkoV3-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DotenkoV3-Info.plist"; sourceTree = "<group>"; };
 		D10F663B298C8F5CE4AEAD11558C0C20 /* Google-Mobile-Ads-SDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Google-Mobile-Ads-SDK.modulemap"; sourceTree = "<group>"; };
+		D3F1A0140391CD6D015B5B21CD845EF3 /* Pods-DotenkoV3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3.release.xcconfig"; sourceTree = "<group>"; };
 		DE66624D7FB7B06FF2E3D35C4D711082 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = "Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64/UserMessagingPlatform.framework/PrivacyInfo.xcprivacy"; sourceTree = "<group>"; };
-		DFA2C8385C635876A3A96E4F4DA69AFB /* Pods-DotenkoV3-DotenkoV3UITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DotenkoV3-DotenkoV3UITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		E076D76E86F76D97DEB0471704C216FB /* Pods-DotenkoV3-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DotenkoV3-dummy.m"; sourceTree = "<group>"; };
 		E6AFE911BCBC86108CD1441C3F7B3756 /* Google-Mobile-Ads-SDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Google-Mobile-Ads-SDK-prefix.pch"; sourceTree = "<group>"; };
 		EB61DA7FFE6D9B8661EB9F7850AF655D /* GoogleUserMessagingPlatform-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GoogleUserMessagingPlatform-xcframeworks.sh"; sourceTree = "<group>"; };
-		F1830C8E5E1896FE7A987AF3891B1297 /* Pods-DotenkoV3-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DotenkoV3-umbrella.h"; sourceTree = "<group>"; };
-		F528E2FEEFFBE4F5E4E865A0B869391E /* Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig"; sourceTree = "<group>"; };
+		EF6955215F78847665E75422D599F7DE /* Pods-DotenkoV3Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DotenkoV3Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F8ECCB3B4E33C0FDD00B394CC2C7EA2E /* Google-Mobile-Ads-SDK */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Google-Mobile-Ads-SDK"; path = Google_Mobile_Ads_SDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE9FA647701D5D9784F7B39F699820EB /* GoogleUserMessagingPlatform.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleUserMessagingPlatform.debug.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,14 +130,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2A2737E289D590346B703AE59A0A7D48 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FDE77A7F1ECC1ABFE83E3657A1F40B2 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,21 +183,16 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		61404703F9F4D7A0DDF8B5B5D866B25F /* Pods-DotenkoV3 */ = {
+		49D868FD49A29D33BE520606156F0D7E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				857C3227E4BF0210936E174EAE5CB117 /* Pods-DotenkoV3.modulemap */,
-				56BFDF916B797A85466CBF8085E18AD7 /* Pods-DotenkoV3-acknowledgements.markdown */,
-				54C7CAC767395EF093B2D320981107C2 /* Pods-DotenkoV3-acknowledgements.plist */,
-				CB8548D6A3E87D47B066CB01510E6162 /* Pods-DotenkoV3-dummy.m */,
-				CBB900201399E136509B81D5C93B0960 /* Pods-DotenkoV3-Info.plist */,
-				1A3EB912255EEAA92CFC36D95F7B29F4 /* Pods-DotenkoV3-resources.sh */,
-				F1830C8E5E1896FE7A987AF3891B1297 /* Pods-DotenkoV3-umbrella.h */,
-				42CE426BB180B6C6CB05522A54EE0812 /* Pods-DotenkoV3.debug.xcconfig */,
-				2D79B068FC728E707FF9DED4213D69BF /* Pods-DotenkoV3.release.xcconfig */,
+				F8ECCB3B4E33C0FDD00B394CC2C7EA2E /* Google-Mobile-Ads-SDK */,
+				3998091512768CD07733CB4F02B4BD9F /* Google-Mobile-Ads-SDK-GoogleMobileAdsResources */,
+				8A377C18F92A8A511869ADA54B5652D2 /* GoogleUserMessagingPlatform-UserMessagingPlatformResources */,
+				CD955D796EF8B0CC603913870EBA011F /* Pods-DotenkoV3 */,
+				374CE37236BCC98B8B312C7DA5A4B9E3 /* Pods-DotenkoV3Tests */,
 			);
-			name = "Pods-DotenkoV3";
-			path = "Target Support Files/Pods-DotenkoV3";
+			name = Products;
 			sourceTree = "<group>";
 		};
 		65DDB6807CC970EF9AC78C515C678942 /* Resources */ = {
@@ -241,6 +201,23 @@
 				50A18E109306BAF831541AA5B4E47979 /* PrivacyInfo.xcprivacy */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		7092A2B521A6636F18218FF11F89F961 /* Pods-DotenkoV3 */ = {
+			isa = PBXGroup;
+			children = (
+				ADC3B54FD3D899DE6367C0CBEEE19496 /* Pods-DotenkoV3.modulemap */,
+				CF45F9D57515BCF30D241096CD1E7211 /* Pods-DotenkoV3-acknowledgements.markdown */,
+				D01BCFFFE6B228972A8DB316B103915B /* Pods-DotenkoV3-acknowledgements.plist */,
+				E076D76E86F76D97DEB0471704C216FB /* Pods-DotenkoV3-dummy.m */,
+				D03D42DFFBB49A60FEAD3BD0D148304F /* Pods-DotenkoV3-Info.plist */,
+				7BEB3FA75FFF933BCC77B72F750CA414 /* Pods-DotenkoV3-resources.sh */,
+				1FD716142E23CF582F6C39BDAE22BCCA /* Pods-DotenkoV3-umbrella.h */,
+				2A0ED5D58CCBD24673E04C4E4B4DC0F5 /* Pods-DotenkoV3.debug.xcconfig */,
+				D3F1A0140391CD6D015B5B21CD845EF3 /* Pods-DotenkoV3.release.xcconfig */,
+			);
+			name = "Pods-DotenkoV3";
+			path = "Target Support Files/Pods-DotenkoV3";
 			sourceTree = "<group>";
 		};
 		77AAD7F4D03FF9C1285BDDA1091F64F8 /* Google-Mobile-Ads-SDK */ = {
@@ -255,30 +232,17 @@
 			path = "Google-Mobile-Ads-SDK";
 			sourceTree = "<group>";
 		};
-		862CC0830C11DAD024B6D47DBEA5868E /* Products */ = {
+		A0E27BA19A35852084E7F9F9849D63E8 /* Pods-DotenkoV3Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F8ECCB3B4E33C0FDD00B394CC2C7EA2E /* Google-Mobile-Ads-SDK */,
-				3998091512768CD07733CB4F02B4BD9F /* Google-Mobile-Ads-SDK-GoogleMobileAdsResources */,
-				8A377C18F92A8A511869ADA54B5652D2 /* GoogleUserMessagingPlatform-UserMessagingPlatformResources */,
-				CD955D796EF8B0CC603913870EBA011F /* Pods-DotenkoV3 */,
-				3B15EE47EBFF3EA96C37547C8C83B3F8 /* Pods-DotenkoV3-DotenkoV3UITests */,
-				374CE37236BCC98B8B312C7DA5A4B9E3 /* Pods-DotenkoV3Tests */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		B64FC9CA242DA82525A958447CC43522 /* Pods-DotenkoV3Tests */ = {
-			isa = PBXGroup;
-			children = (
-				9DE3E0ACD30289066774BD30909669AF /* Pods-DotenkoV3Tests.modulemap */,
-				9A93DEDAA0707A4F7D35AF001A96EF51 /* Pods-DotenkoV3Tests-acknowledgements.markdown */,
-				1A51620F55DD94E7FC15FC6238EAD56A /* Pods-DotenkoV3Tests-acknowledgements.plist */,
-				09567BB6479D34524C19407E441346A9 /* Pods-DotenkoV3Tests-dummy.m */,
-				9699BB792E612117478424D68A921607 /* Pods-DotenkoV3Tests-Info.plist */,
-				C1A33BA22739CC59FEEA12046A17A1D3 /* Pods-DotenkoV3Tests-umbrella.h */,
-				24DF67E62DFDD15D2810AC4EA75988A4 /* Pods-DotenkoV3Tests.debug.xcconfig */,
-				5A314A505F83C9F9F78D70DE70984C89 /* Pods-DotenkoV3Tests.release.xcconfig */,
+				410A3972976B6CACA95E587A5CDBDF17 /* Pods-DotenkoV3Tests.modulemap */,
+				2A872EFA2F46881E3958ADA9DD27EBE7 /* Pods-DotenkoV3Tests-acknowledgements.markdown */,
+				5F14B20A54EE1C75C82755AB64CBC561 /* Pods-DotenkoV3Tests-acknowledgements.plist */,
+				4B31DD3A46CE6CB5F901E96EA0D93A0A /* Pods-DotenkoV3Tests-dummy.m */,
+				96FB813F5B5CBE87F66A65D56FF94280 /* Pods-DotenkoV3Tests-Info.plist */,
+				9358469ECFEA7B8CC3E20EB84A9EA138 /* Pods-DotenkoV3Tests-umbrella.h */,
+				EF6955215F78847665E75422D599F7DE /* Pods-DotenkoV3Tests.debug.xcconfig */,
+				4D9B073F3281746820BD90CC90A1D28E /* Pods-DotenkoV3Tests.release.xcconfig */,
 			);
 			name = "Pods-DotenkoV3Tests";
 			path = "Target Support Files/Pods-DotenkoV3Tests";
@@ -296,25 +260,24 @@
 			path = "../Target Support Files/GoogleUserMessagingPlatform";
 			sourceTree = "<group>";
 		};
+		CC7BF0ECEDFB7859F158E94F04D979E3 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				7092A2B521A6636F18218FF11F89F961 /* Pods-DotenkoV3 */,
+				A0E27BA19A35852084E7F9F9849D63E8 /* Pods-DotenkoV3Tests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
 				FA8C76703EDBF6E7F7BFB2AF887CBFCC /* Pods */,
-				862CC0830C11DAD024B6D47DBEA5868E /* Products */,
-				CF4716546CD71975630FEA4942864136 /* Targets Support Files */,
+				49D868FD49A29D33BE520606156F0D7E /* Products */,
+				CC7BF0ECEDFB7859F158E94F04D979E3 /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		CF4716546CD71975630FEA4942864136 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				61404703F9F4D7A0DDF8B5B5D866B25F /* Pods-DotenkoV3 */,
-				E5043525E041C07AFB2FA145310F9878 /* Pods-DotenkoV3-DotenkoV3UITests */,
-				B64FC9CA242DA82525A958447CC43522 /* Pods-DotenkoV3Tests */,
-			);
-			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 		D10D9F51B04C4F71D5F6FE8642D33CA1 /* GoogleUserMessagingPlatform */ = {
@@ -361,23 +324,6 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		E5043525E041C07AFB2FA145310F9878 /* Pods-DotenkoV3-DotenkoV3UITests */ = {
-			isa = PBXGroup;
-			children = (
-				4DB9A5DC7626F45693537063F966CE92 /* Pods-DotenkoV3-DotenkoV3UITests.modulemap */,
-				DFA2C8385C635876A3A96E4F4DA69AFB /* Pods-DotenkoV3-DotenkoV3UITests-acknowledgements.markdown */,
-				91F44805557C0F3F7BECE2A5D54E9B76 /* Pods-DotenkoV3-DotenkoV3UITests-acknowledgements.plist */,
-				AFC470F92598AD0CB860EBD3FD2CDACB /* Pods-DotenkoV3-DotenkoV3UITests-dummy.m */,
-				34A34765426F4D238E7CB6040EE84A72 /* Pods-DotenkoV3-DotenkoV3UITests-Info.plist */,
-				BC4FF6CD246D37FF950F06D1ED7B3DA0 /* Pods-DotenkoV3-DotenkoV3UITests-resources.sh */,
-				32F6BCE4DC61DBB6F93DF92813D6E347 /* Pods-DotenkoV3-DotenkoV3UITests-umbrella.h */,
-				F528E2FEEFFBE4F5E4E865A0B869391E /* Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig */,
-				9B80E203D1995C966134D10C59DD01A0 /* Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig */,
-			);
-			name = "Pods-DotenkoV3-DotenkoV3UITests";
-			path = "Target Support Files/Pods-DotenkoV3-DotenkoV3UITests";
-			sourceTree = "<group>";
-		};
 		FA8C76703EDBF6E7F7BFB2AF887CBFCC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,14 +357,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD90468037AC7AC384A68A4EABE27F84 /* Google-Mobile-Ads-SDK-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F148EABD139016A01896BFFB6F84CE13 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A0470A766E6C54AA06D3BE9ECAE4ADBC /* Pods-DotenkoV3-DotenkoV3UITests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,26 +425,6 @@
 			productReference = CD955D796EF8B0CC603913870EBA011F /* Pods-DotenkoV3 */;
 			productType = "com.apple.product-type.framework";
 		};
-		E09EB3DB673C3AEE66ACFDAFB94DB510 /* Pods-DotenkoV3-DotenkoV3UITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 56D90D29BB457369A451AE90ECCD12F9 /* Build configuration list for PBXNativeTarget "Pods-DotenkoV3-DotenkoV3UITests" */;
-			buildPhases = (
-				F148EABD139016A01896BFFB6F84CE13 /* Headers */,
-				90DE4DD28CF7696A2A690D1D4C7C18FB /* Sources */,
-				2A2737E289D590346B703AE59A0A7D48 /* Frameworks */,
-				FF144B5B4952B8A424B9E6EA29154C3F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2F626A0562B8EF7FEB9868EF6F6D7378 /* PBXTargetDependency */,
-				64DD6FA3C6F8F1146EA734F65F9F6431 /* PBXTargetDependency */,
-			);
-			name = "Pods-DotenkoV3-DotenkoV3UITests";
-			productName = Pods_DotenkoV3_DotenkoV3UITests;
-			productReference = 3B15EE47EBFF3EA96C37547C8C83B3F8 /* Pods-DotenkoV3-DotenkoV3UITests */;
-			productType = "com.apple.product-type.framework";
-		};
 		E3CDDF5CB59457E2C9D4F1464C54EEDF /* Pods-DotenkoV3Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3162602834727765B51A30A62C8746DC /* Build configuration list for PBXNativeTarget "Pods-DotenkoV3Tests" */;
@@ -567,7 +485,7 @@
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
 			minimizedProjectReferenceProxies = 0;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 862CC0830C11DAD024B6D47DBEA5868E /* Products */;
+			productRefGroup = 49D868FD49A29D33BE520606156F0D7E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -576,7 +494,6 @@
 				458B188365A307B3C128ABF524D1A3E3 /* GoogleUserMessagingPlatform */,
 				63A7C675C13F87669AF56006D943998B /* GoogleUserMessagingPlatform-UserMessagingPlatformResources */,
 				C7C9979AF32124D5B5DA4384E2EBE5B1 /* Pods-DotenkoV3 */,
-				E09EB3DB673C3AEE66ACFDAFB94DB510 /* Pods-DotenkoV3-DotenkoV3UITests */,
 				E3CDDF5CB59457E2C9D4F1464C54EEDF /* Pods-DotenkoV3Tests */,
 			);
 		};
@@ -620,13 +537,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FF144B5B4952B8A424B9E6EA29154C3F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -667,14 +577,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		90DE4DD28CF7696A2A690D1D4C7C18FB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				368DF57A44114AAA2F6F15BFDA2E45E2 /* Pods-DotenkoV3-DotenkoV3UITests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9589CE036E1F6FB0B202DC4A1ACE5E70 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -729,23 +631,11 @@
 			target = 458B188365A307B3C128ABF524D1A3E3 /* GoogleUserMessagingPlatform */;
 			targetProxy = 8EE085802180F384C6C8CA267D472C59 /* PBXContainerItemProxy */;
 		};
-		2F626A0562B8EF7FEB9868EF6F6D7378 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Google-Mobile-Ads-SDK";
-			target = FEA3B3A570634836C0457F3D7CEF1699 /* Google-Mobile-Ads-SDK */;
-			targetProxy = 4C65800CF551A93B9139B429627D949A /* PBXContainerItemProxy */;
-		};
 		30FEC1D4812A0694C8F96E6269EB0744 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Google-Mobile-Ads-SDK";
 			target = FEA3B3A570634836C0457F3D7CEF1699 /* Google-Mobile-Ads-SDK */;
 			targetProxy = CFD9361A79C0683B05F636C8E40A19D8 /* PBXContainerItemProxy */;
-		};
-		64DD6FA3C6F8F1146EA734F65F9F6431 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GoogleUserMessagingPlatform;
-			target = 458B188365A307B3C128ABF524D1A3E3 /* GoogleUserMessagingPlatform */;
-			targetProxy = AFEE94D6E29D6B165B0D2BF9F7D43F99 /* PBXContainerItemProxy */;
 		};
 		7A951F7571A2F45703E7F4AA66116BE9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -770,7 +660,7 @@
 /* Begin XCBuildConfiguration section */
 		26133E46920C08DA9CAD5D3193A5BF04 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42CE426BB180B6C6CB05522A54EE0812 /* Pods-DotenkoV3.debug.xcconfig */;
+			baseConfigurationReference = 2A0ED5D58CCBD24673E04C4E4B4DC0F5 /* Pods-DotenkoV3.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -814,7 +704,7 @@
 		};
 		29D5A24950E49E81493F87AE98286478 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D79B068FC728E707FF9DED4213D69BF /* Pods-DotenkoV3.release.xcconfig */;
+			baseConfigurationReference = D3F1A0140391CD6D015B5B21CD845EF3 /* Pods-DotenkoV3.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -990,7 +880,7 @@
 		};
 		7C35F413FDCA6FCEEB4D3D1DCCAD9DFB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 24DF67E62DFDD15D2810AC4EA75988A4 /* Pods-DotenkoV3Tests.debug.xcconfig */;
+			baseConfigurationReference = EF6955215F78847665E75422D599F7DE /* Pods-DotenkoV3Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1097,53 +987,9 @@
 			};
 			name = Release;
 		};
-		AA35BC4FC29BA3C826A6F8FF4DE2BCC8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F528E2FEEFFBE4F5E4E865A0B869391E /* Pods-DotenkoV3-DotenkoV3UITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_IDENTITY = "";
-				CODE_SIGNING_REQUIRED = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				EXPANDED_CODE_SIGN_IDENTITY = "";
-				INFOPLIST_FILE = "Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		AD39C8792794F39D19CDF63388888203 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A314A505F83C9F9F78D70DE70984C89 /* Pods-DotenkoV3Tests.release.xcconfig */;
+			baseConfigurationReference = 4D9B073F3281746820BD90CC90A1D28E /* Pods-DotenkoV3Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1252,51 +1098,6 @@
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
-		};
-		CF11C71C032D650884AB27EAA27F39B1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B80E203D1995C966134D10C59DD01A0 /* Pods-DotenkoV3-DotenkoV3UITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_IDENTITY = "";
-				CODE_SIGNING_REQUIRED = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				EXPANDED_CODE_SIGN_IDENTITY = "";
-				INFOPLIST_FILE = "Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-DotenkoV3-DotenkoV3UITests/Pods-DotenkoV3-DotenkoV3UITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
 		};
 		F4FF6A0D1970CA9705974E3CB2134802 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1411,15 +1212,6 @@
 			buildConfigurations = (
 				F4FF6A0D1970CA9705974E3CB2134802 /* Debug */,
 				30E0B9EFD9A5C45D0D351231E81B30B3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		56D90D29BB457369A451AE90ECCD12F9 /* Build configuration list for PBXNativeTarget "Pods-DotenkoV3-DotenkoV3UITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA35BC4FC29BA3C826A6F8FF4DE2BCC8 /* Debug */,
-				CF11C71C032D650884AB27EAA27F39B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
