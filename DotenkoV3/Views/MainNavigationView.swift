@@ -10,8 +10,8 @@
 //
 
 import SwiftUI
-//import GoogleMobileAds
-
+// TODO: 広告実装時にコメントを解除
+// import GoogleMobileAds
 /// アプリケーションのメインナビゲーションView
 struct MainNavigationView: View {
     
