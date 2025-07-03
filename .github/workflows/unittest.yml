@@ -213,6 +213,8 @@ jobs:
         echo "🕐 Test Date: $(date '+%Y-%m-%d %H:%M:%S')"
         echo "📱 Device: iPhone 16 (iOS 18.2)"
         echo "🔧 Xcode: 16.2"
+        echo "🌐 Environment: GitHub Actions (macos-15)"
+        echo "⏱️ Report Generated: $(date '+%H:%M:%S UTC')"
         echo ""
         
         # テスト結果の詳細解析
@@ -240,16 +242,57 @@ jobs:
               echo "📝 INDIVIDUAL TEST RESULTS:"
               echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
               
+              # テスト結果をテストクラス別に整理して表示
+              echo ""
+              echo "🧪 NavigationManagerTests:"
+              echo "├─────────────────────────────────────────────"
+              
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests")) |
+                if .status == "passed" then
+                  "│ ✅ PASS | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                elif .status == "failed" then
+                  "│ ❌ FAIL | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                elif .status == "skipped" then
+                  "│ ⏭️ SKIP | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                else
+                  "│ ❓ " + .status + " | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                end' detailed_tests.json 2>/dev/null || echo "│ ⚠️ NavigationManagerTests results not found"
+              
+              echo "└─────────────────────────────────────────────"
+              echo ""
+              echo "🔧 ViewWrapperTests:"
+              echo "├─────────────────────────────────────────────"
+              
+              jq -r '.tests[] | 
+                select(.identifier | contains("ViewWrapperTests")) |
+                if .status == "passed" then
+                  "│ ✅ PASS | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                elif .status == "failed" then
+                  "│ ❌ FAIL | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                elif .status == "skipped" then
+                  "│ ⏭️ SKIP | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                else
+                  "│ ❓ " + .status + " | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                end' detailed_tests.json 2>/dev/null || echo "│ ⚠️ ViewWrapperTests results not found"
+              
+              echo "└─────────────────────────────────────────────"
+              echo ""
+              echo "📊 All Tests Summary:"
+              echo "├─────────────────────────────────────────────"
+              
               jq -r '.tests[] | 
                 if .status == "passed" then
-                  "✅ PASS | " + .name
+                  "│ ✅ PASS | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
                 elif .status == "failed" then
-                  "❌ FAIL | " + .name
+                  "│ ❌ FAIL | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
                 elif .status == "skipped" then
-                  "⏭️ SKIP | " + .name
+                  "│ ⏭️ SKIP | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
                 else
-                  "❓ " + .status + " | " + .name
-                end' detailed_tests.json 2>/dev/null || echo "Unable to parse individual test results"
+                  "│ ❓ " + .status + " | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                end' detailed_tests.json 2>/dev/null || echo "│ ⚠️ Unable to parse individual test results"
+              
+              echo "└─────────────────────────────────────────────"
               
               echo ""
               echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -258,6 +301,18 @@ jobs:
               if [ "$total_tests" -gt 0 ]; then
                 success_rate=$(awk "BEGIN {printf \"%.1f\", $passed_tests * 100 / $total_tests}" 2>/dev/null || echo "N/A")
                 echo "🎯 Success Rate: $success_rate%"
+                
+                # テスト実行時間の情報を追加（可能であれば）
+                if [ -f "test_results.json" ]; then
+                  duration=$(jq -r '.duration // "N/A"' test_results.json 2>/dev/null || echo "N/A")
+                  echo "⏱️ Total Execution Time: $duration seconds"
+                fi
+                
+                # テストの分類別統計
+                echo ""
+                echo "📈 Test Statistics by Category:"
+                echo "   • Navigation Tests: $(jq '[.tests[] | select(.identifier | contains("NavigationManagerTests"))] | length' detailed_tests.json 2>/dev/null || echo "N/A")"
+                echo "   • ViewWrapper Tests: $(jq '[.tests[] | select(.identifier | contains("ViewWrapperTests"))] | length' detailed_tests.json 2>/dev/null || echo "N/A")"
               else
                 echo "🎯 Success Rate: N/A"
               fi
@@ -322,10 +377,40 @@ jobs:
             echo "✅ Test failure analysis using new format"
             # テスト失敗の詳細を表示
             if command -v jq >/dev/null 2>&1; then
-              echo "📊 Test failure summary:"
-              jq '.tests[] | select(.status == "failed") | {name: .name, status: .status}' test_failures.json || echo "No specific failures found"
+              echo "📊 DETAILED FAILURE ANALYSIS:"
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              
+              # 失敗したテストの数を確認
+              failed_count=$(jq '[.tests[] | select(.status == "failed")] | length' test_failures.json 2>/dev/null || echo "0")
+              
+              if [ "$failed_count" -gt 0 ]; then
+                echo "❌ Found $failed_count failed test(s):"
+                echo ""
+                
+                # 各失敗テストの詳細を表示
+                jq -r '.tests[] | select(.status == "failed") | 
+                  "🔴 FAILED TEST: " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; "")) + 
+                  "\n   └─ Test Class: " + (.identifier | split("/")[0]) +
+                  "\n   └─ Full Name: " + .name +
+                  "\n   └─ Status: " + .status + "\n"' test_failures.json 2>/dev/null
+                
+                # 失敗の原因情報があれば表示
+                echo "🔍 Failure Details:"
+                jq -r '.tests[] | select(.status == "failed") | 
+                  if .failureMessages then
+                    "   • " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; "")) + ": " + (.failureMessages | join(", "))
+                  else
+                    "   • " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; "")) + ": No detailed failure message available"
+                  end' test_failures.json 2>/dev/null || echo "   • No detailed failure information available"
+                
+              else
+                echo "✅ No failed tests found in detailed analysis"
+              fi
+              
+              echo ""
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             else
-              echo "📄 Raw test failure data:"
+              echo "📄 Raw test failure data (jq not available):"
               head -20 test_failures.json
             fi
           else
@@ -351,13 +436,20 @@ jobs:
   # 📋 テスト結果のサマリー作成
   # メインのテストジョブ完了後に、結果をまとめて表示
   test-summary:
-    name: Test Summary  # サマリージョブの表示名
-    runs-on: ubuntu-latest  # 軽量なUbuntuランナーを使用
-    needs: test  # testジョブの完了を待つ
-    if: always()  # testジョブが成功・失敗に関わらず実行
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
     
     steps:
-    # 📊 GitHub Actions Summary にテスト結果を表示
+    # Download test results from previous job
+    - name: Download Test Results
+      uses: actions/download-artifact@v4
+      with:
+        name: test-results-0
+        path: test-results
+
+    # Generate dynamic test summary
     - name: Test Summary
       run: |
         {
@@ -369,25 +461,109 @@ jobs:
           echo "- **Test Status**: ${{ needs.test.result }}"
           echo "- **Test Date**: $(date '+%Y-%m-%d %H:%M:%S UTC')"
           echo ""
+          
           if [ "${{ needs.test.result }}" == "success" ]; then
             echo "## ✅ Test Result: SUCCESS"
             echo ""
             echo "🎉 All tests passed successfully!"
             echo ""
-            echo "### What this means:"
-            echo "- ✅ All unit tests are working correctly"
-            echo "- ✅ NavigationManager functionality is verified"
-            echo "- ✅ App components are properly tested"
-            echo "- ✅ Code is ready for deployment"
+            echo "### 📋 Test Results by Class:"
+            echo ""
+            
+            # Parse and display test results dynamically
+            if [ -f "test-results/detailed_tests.json" ]; then
+              # NavigationManagerTests
+              echo "#### 🧪 NavigationManagerTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests")) |
+                "- ✅ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No NavigationManagerTests found"
+              echo ""
+              
+              # ViewWrapperTests
+              echo "#### 🔧 ViewWrapperTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("ViewWrapperTests")) |
+                "- ✅ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No ViewWrapperTests found"
+              echo ""
+              
+              # Other test classes (if any)
+              echo "#### 🔄 Other Tests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests") | not) |
+                select(.identifier | contains("ViewWrapperTests") | not) |
+                "- ✅ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No other tests found"
+              
+              echo ""
+              echo "### What this means:"
+              echo "- ✅ All unit tests are working correctly"
+              echo "- ✅ All components are properly tested"
+              echo "- ✅ Code is ready for deployment"
+            else
+              echo "⚠️ Test results file not found"
+            fi
           else
             echo "## ❌ Test Result: FAILURE"
             echo ""
             echo "⚠️ Some tests failed. Please check the test job for details."
             echo ""
-            echo "### Next steps:"
-            echo "- 🔍 Review the test failure details above"
-            echo "- 🛠️ Fix the failing tests"
-            echo "- 🔄 Push the fixes to trigger a new test run"
+            echo "### 🔍 Test Results by Class:"
+            echo ""
+            
+            if [ -f "test-results/detailed_tests.json" ]; then
+              # NavigationManagerTests with status
+              echo "#### 🧪 NavigationManagerTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests")) |
+                if .status == "passed" then
+                  "- ✅ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "failed" then
+                  "- ❌ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))
+                else
+                  "- ⏭️ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))
+                end' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No NavigationManagerTests found"
+              echo ""
+              
+              # ViewWrapperTests with status
+              echo "#### 🔧 ViewWrapperTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("ViewWrapperTests")) |
+                if .status == "passed" then
+                  "- ✅ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "failed" then
+                  "- ❌ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))
+                else
+                  "- ⏭️ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))
+                end' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No ViewWrapperTests found"
+              echo ""
+              
+              # Other test classes with status
+              echo "#### 🔄 Other Tests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests") | not) |
+                select(.identifier | contains("ViewWrapperTests") | not) |
+                if .status == "passed" then
+                  "- ✅ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "failed" then
+                  "- ❌ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                else
+                  "- ⏭️ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                end' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No other tests found"
+              
+              echo ""
+              echo "### Next steps:"
+              echo "- 🔍 Review the test failure details above"
+              echo "- 🛠️ Fix the failing tests"
+              echo "- 🔄 Push the fixes to trigger a new test run"
+              echo "- 📊 Check the detailed test report in the job logs"
+            else
+              echo "⚠️ Test results file not found"
+            fi
           fi
           echo ""
           echo "---"
