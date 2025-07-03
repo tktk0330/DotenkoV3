@@ -110,38 +110,15 @@ echo ""
 if command -v gh &> /dev/null; then
     echo "🤖 GitHub CLI が検出されました"
     echo ""
-    read -p "GitHub CLI を使用してSecretsを自動設定しますか? (y/N): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "🚀 GitHub CLI を使用してSecretsを設定中..."
-        
         # Config.swift
         if [ -f "$CONFIG_SWIFT_PATH" ] && [ -n "$CONFIG_SWIFT_ENCODED" ]; then
-            echo "$CONFIG_SWIFT_ENCODED" | gh secret set CONFIG_BASE64 --body=-
-            print_success "CONFIG_BASE64 を設定しました"
+            if echo "$CONFIG_SWIFT_ENCODED" | gh secret set CONFIG_BASE64 --body=-; then
+                print_success "CONFIG_BASE64 を設定しました"
+            else
+                print_error "CONFIG_BASE64 の設定に失敗しました"
+                exit 1
+            fi
         fi
-        
-        # Info.plist
-        if [ -f "$INFO_PLIST_PATH" ] && [ -n "$INFO_PLIST_ENCODED" ]; then
-            echo "$INFO_PLIST_ENCODED" | gh secret set INFO_PLIST_BASE64 --body=-
-            print_success "INFO_PLIST_BASE64 を設定しました"
-        fi
-        
-        # GoogleService-Info.plist
-        if [ -f "$GOOGLE_SERVICE_PLIST_PATH" ] && [ -n "$GOOGLE_SERVICE_PLIST_ENCODED" ]; then
-            echo "$GOOGLE_SERVICE_PLIST_ENCODED" | gh secret set GOOGLE_SERVICE_INFO_PLIST_BASE64 --body=-
-            print_success "GOOGLE_SERVICE_INFO_PLIST_BASE64 を設定しました"
-        fi
-        
-        read -p "Slack Webhook URLを入力してください (空白でスキップ): " SLACK_URL
-        if [ -n "$SLACK_URL" ]; then
-            echo "$SLACK_URL" | gh secret set SLACK_WEBHOOK_URL --body=-
-            print_success "SLACK_WEBHOOK_URL を設定しました"
-        fi
-        
-        echo ""
-        print_success "GitHub Secretsの設定が完了しました！"
-    fi
 else
     print_info "GitHub CLI をインストールすると、Secretsの自動設定が可能です"
     print_info "インストール: https://cli.github.com/"
