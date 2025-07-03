@@ -356,15 +356,15 @@ jobs:
     # テスト結果ファイルをGitHub Actionsに保存（後でダウンロード可能）
     - name: Upload Test Results
       if: always()
-      uses: actions/upload-artifact@v4  # ファイルアップロード用の公式アクション
+      uses: actions/upload-artifact@v4
       with:
-        name: test-results-${{ strategy.job-index }}  # アーティファクトの名前
+        name: test-results  # 固定の名前に変更
         path: |
-          TestResults.xcresult  # Xcodeのテスト結果バンドル
-          test_results.json     # JSON形式のテスト結果
-          detailed_tests.json   # 詳細なテスト結果
-          coverage.json         # コードカバレッジ情報
-        retention-days: 30  # 30日間保存
+          TestResults.xcresult
+          test_results.json
+          detailed_tests.json
+          coverage.json
+        retention-days: 30
     
     # テスト失敗時の詳細ログ出力
     - name: Show Test Failures
@@ -442,14 +442,15 @@ jobs:
     if: always()
     
     steps:
-    # Download test results from previous job
+    # Download test results from previous job with improved error handling
     - name: Download Test Results
       uses: actions/download-artifact@v4
+      continue-on-error: true  # エラーが発生しても続行
       with:
-        name: test-results-0
+        name: test-results
         path: test-results
 
-    # Generate dynamic test summary
+    # Check if download was successful and generate summary
     - name: Test Summary
       run: |
         {
@@ -462,16 +463,16 @@ jobs:
           echo "- **Test Date**: $(date '+%Y-%m-%d %H:%M:%S UTC')"
           echo ""
           
-          if [ "${{ needs.test.result }}" == "success" ]; then
-            echo "## ✅ Test Result: SUCCESS"
-            echo ""
-            echo "🎉 All tests passed successfully!"
-            echo ""
-            echo "### 📋 Test Results by Class:"
-            echo ""
-            
-            # Parse and display test results dynamically
-            if [ -f "test-results/detailed_tests.json" ]; then
+          # テスト結果ファイルの存在確認
+          if [ -f "test-results/detailed_tests.json" ]; then
+            if [ "${{ needs.test.result }}" == "success" ]; then
+              echo "## ✅ Test Result: SUCCESS"
+              echo ""
+              echo "🎉 All tests passed successfully!"
+              echo ""
+              echo "### 📋 Test Results by Class:"
+              echo ""
+              
               # NavigationManagerTests
               echo "#### 🧪 NavigationManagerTests"
               jq -r '.tests[] | 
@@ -502,17 +503,13 @@ jobs:
               echo "- ✅ All components are properly tested"
               echo "- ✅ Code is ready for deployment"
             else
-              echo "⚠️ Test results file not found"
-            fi
-          else
-            echo "## ❌ Test Result: FAILURE"
-            echo ""
-            echo "⚠️ Some tests failed. Please check the test job for details."
-            echo ""
-            echo "### 🔍 Test Results by Class:"
-            echo ""
-            
-            if [ -f "test-results/detailed_tests.json" ]; then
+              echo "## ❌ Test Result: FAILURE"
+              echo ""
+              echo "⚠️ Some tests failed. Please check the test job for details."
+              echo ""
+              echo "### 🔍 Test Results by Class:"
+              echo ""
+              
               # NavigationManagerTests with status
               echo "#### 🧪 NavigationManagerTests"
               jq -r '.tests[] | 
@@ -561,9 +558,17 @@ jobs:
               echo "- 🛠️ Fix the failing tests"
               echo "- 🔄 Push the fixes to trigger a new test run"
               echo "- 📊 Check the detailed test report in the job logs"
-            else
-              echo "⚠️ Test results file not found"
             fi
+          else
+            echo "## ⚠️ Test Results Not Available"
+            echo ""
+            echo "テスト結果ファイルが見つかりませんでした。以下を確認してください："
+            echo ""
+            echo "1. テストジョブが正常に完了したか"
+            echo "2. アーティファクトが正しくアップロードされたか"
+            echo "3. アーティファクトの保持期間が切れていないか"
+            echo ""
+            echo "テストの実行状態: ${{ needs.test.result }}"
           fi
           echo ""
           echo "---"
