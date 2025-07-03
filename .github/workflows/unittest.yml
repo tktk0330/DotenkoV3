@@ -1,40 +1,46 @@
 name: Unit Tests
 
-# トリガー条件
+# 🚀 GitHub Actionsの基本設定
+# このワークフローがいつ実行されるかを定義
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, develop ]  # main または develop ブランチへのPull Request時に実行
 
-# 並列実行の制限
+# 🔄 並列実行の制限設定
+# 同じブランチで複数のワークフローが同時実行されないように制御
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}  # ワークフロー名とブランチ名でグループ化
+  cancel-in-progress: true  # 新しいワークフローが開始されたら、実行中のものをキャンセル
 
 jobs:
   test:
-    name: Run Unit Tests
-    runs-on: macos-15  # Xcode 16をサポートするためmacos-15に変更
+    name: Run Unit Tests  # ジョブの表示名
+    runs-on: macos-15  # 🖥️ macOS 15 (Xcode 16をサポート)
     
+    # 📱 テスト実行環境の設定
+    # 複数のデバイス・OSバージョンでテストを実行したい場合に使用
     strategy:
       matrix:
-        # 利用可能なシミュレーターでテスト実行（iOS 18.2でテストターゲットと一致）
+        # テスト対象のシミュレーター設定
         destination: [
-          'platform=iOS Simulator,name=iPhone 16,OS=18.2'
+          'platform=iOS Simulator,name=iPhone 16,OS=18.2'  # iPhone 16, iOS 18.2
         ]
     
     steps:
-    # リポジトリのチェックアウト
+    # 📥 Step 1: リポジトリのソースコードをダウンロード
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # GitHubが提供する公式アクション
       with:
-        fetch-depth: 0  # 全履歴を取得（必要に応じて）
+        fetch-depth: 0  # 全履歴を取得（通常は最新のコミットのみでOK）
     
-    # 機密ファイルの復元
+    # 🔐 Step 2: 機密ファイルの復元
+    # GitHubのSecretsに保存されたファイルをBASE64から復元
     - name: Restore Secret Files
       env:
-        CONFIG_BASE64: ${{ secrets.CONFIG_BASE64 }}
-        GOOGLE_SERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
-        INFO_PLIST_BASE64: ${{ secrets.INFO_PLIST_BASE64 }}
+        # 環境変数として機密情報を設定
+        CONFIG_BASE64: ${{ secrets.CONFIG_BASE64 }}  # アプリ設定ファイル
+        GOOGLE_SERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}  # Firebase設定
+        INFO_PLIST_BASE64: ${{ secrets.INFO_PLIST_BASE64 }}  # アプリ情報ファイル
       run: |
         # Config.swiftの復元
         # Config.swiftの復元
@@ -90,26 +96,29 @@ jobs:
         
         echo "ℹ️ AdMob設定はConfig.swiftで管理されています"
     
-    # Xcodeバージョンの設定
+    # 🔧 Step 3: Xcodeバージョンの設定
+    # 特定のXcodeバージョンを指定して使用
     - name: Setup Xcode
-      uses: maxim-lobanov/setup-xcode@v1
+      uses: maxim-lobanov/setup-xcode@v1  # Xcode設定用の公式アクション
       with:
-        xcode-version: '16.2'  # プロジェクトファイル形式77をサポートするバージョンに変更
+        xcode-version: '16.2'  # Xcode 16.2を使用（プロジェクトファイル形式77をサポート）
     
-    # CocoaPodsのキャッシュ設定
+    # 🗄️ Step 4: CocoaPodsのキャッシュ設定
+    # 依存関係のダウンロード時間を短縮するためのキャッシュ機能
     - name: Cache CocoaPods
-      uses: actions/cache@v4
+      uses: actions/cache@v4  # GitHubが提供するキャッシュアクション
       with:
-        path: Pods
-        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        path: Pods  # キャッシュ対象のディレクトリ
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}  # キャッシュのキー
         restore-keys: |
-          ${{ runner.os }}-pods-
+          ${{ runner.os }}-pods-  # キャッシュが見つからない場合の代替キー
     
-    # CocoaPodsの依存関係インストール
+    # 📦 Step 5: CocoaPodsの依存関係インストール
+    # iOSアプリの外部ライブラリ（Google Mobile Ads SDKなど）をインストール
     - name: Install CocoaPods dependencies
       run: |
-        gem install cocoapods
-        pod install --repo-update
+        gem install cocoapods  # CocoaPodsツールをインストール
+        pod install --repo-update  # Podfileに記載された依存関係をインストール
     
     # Xcodeプロジェクトのビルド設定確認
     - name: Show Xcode version and available simulators
@@ -159,7 +168,8 @@ jobs:
           exit 1
         fi
     
-    # テスト結果の解析とレポート生成
+    # 📊 Step 8: テスト結果の解析とレポート生成
+    # テスト結果を解析して、わかりやすいレポートを作成
     - name: Generate Test Report
       if: always()  # テストが失敗してもレポートを生成
       run: |
@@ -184,7 +194,81 @@ jobs:
           echo '{"status": "error", "message": "No test results found"}' > test_results.json
         fi
     
-    # コードカバレッジの生成
+    # 🎯 Step 9: カスタムテストレポートの生成
+    # 独自形式でテスト結果を見やすく表示
+    - name: Generate Custom Test Report
+      if: always()
+      run: |
+        echo "📋 ===== DOTENKO V3 TEST REPORT ====="
+        echo "🕐 Test Date: $(date '+%Y-%m-%d %H:%M:%S')"
+        echo "📱 Device: iPhone 16 (iOS 18.2)"
+        echo "🔧 Xcode: 16.2"
+        echo ""
+        
+        # テスト結果の詳細解析
+        if [ -d "TestResults.xcresult" ]; then
+          # 新しい形式でテスト詳細を取得
+          if xcrun xcresulttool get test-results tests --path TestResults.xcresult --format json > detailed_tests.json 2>/dev/null; then
+            echo "🧪 TEST RESULTS SUMMARY:"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            
+            # jqが利用可能かチェック
+            if command -v jq >/dev/null 2>&1; then
+              # テスト総数をカウント
+              total_tests=$(jq '.tests | length' detailed_tests.json 2>/dev/null || echo "0")
+              passed_tests=$(jq '[.tests[] | select(.status == "passed")] | length' detailed_tests.json 2>/dev/null || echo "0")
+              failed_tests=$(jq '[.tests[] | select(.status == "failed")] | length' detailed_tests.json 2>/dev/null || echo "0")
+              skipped_tests=$(jq '[.tests[] | select(.status == "skipped")] | length' detailed_tests.json 2>/dev/null || echo "0")
+              
+              echo "📊 Total Tests: $total_tests"
+              echo "✅ Passed: $passed_tests"
+              echo "❌ Failed: $failed_tests"
+              echo "⏭️ Skipped: $skipped_tests"
+              echo ""
+              
+              # 各テストの詳細を表示
+              echo "📝 INDIVIDUAL TEST RESULTS:"
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              
+              jq -r '.tests[] | 
+                if .status == "passed" then
+                  "✅ PASS | " + .name
+                elif .status == "failed" then
+                  "❌ FAIL | " + .name
+                elif .status == "skipped" then
+                  "⏭️ SKIP | " + .name
+                else
+                  "❓ " + .status + " | " + .name
+                end' detailed_tests.json 2>/dev/null || echo "Unable to parse individual test results"
+              
+              echo ""
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              
+              # 成功率を計算（bcコマンドを使わない方法）
+              if [ "$total_tests" -gt 0 ]; then
+                success_rate=$(awk "BEGIN {printf \"%.1f\", $passed_tests * 100 / $total_tests}" 2>/dev/null || echo "N/A")
+                echo "🎯 Success Rate: $success_rate%"
+              else
+                echo "🎯 Success Rate: N/A"
+              fi
+              
+            else
+              echo "⚠️ jq not available, showing raw test count"
+              echo "📊 Test results file generated successfully"
+            fi
+          else
+            echo "⚠️ Could not parse test results in detail"
+          fi
+        else
+          echo "❌ No test results bundle found"
+        fi
+        
+        echo ""
+        echo "🏁 End of Test Report"
+        echo "======================================"
+    
+    # 📈 Step 10: コードカバレッジの生成
+    # テストがどの程度コードをカバーしているかを測定
     - name: Generate Code Coverage
       if: always()
       run: |
@@ -195,24 +279,27 @@ jobs:
           echo "No coverage data found"
         fi
     
-    # 機密ファイルのクリーンアップ
+    # 🧹 Step 11: 機密ファイルのクリーンアップ
+    # セキュリティのため、テスト終了後に機密ファイルを削除
     - name: Cleanup Secret Files
-      if: always()
+      if: always()  # テストが成功・失敗に関わらず実行
       run: |
         rm -f DotenkoV3/Config/Config.swift DotenkoV3/Info.plist DotenkoV3/GoogleService-Info.plist
         echo "🧹 Secret files cleaned up"
     
-    # テスト結果のアーティファクト保存
+    # 📤 Step 12: テスト結果のアーティファクト保存
+    # テスト結果ファイルをGitHub Actionsに保存（後でダウンロード可能）
     - name: Upload Test Results
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4  # ファイルアップロード用の公式アクション
       with:
-        name: test-results-${{ strategy.job-index }}
+        name: test-results-${{ strategy.job-index }}  # アーティファクトの名前
         path: |
-          TestResults.xcresult
-          test_results.json
-          coverage.json
-        retention-days: 30
+          TestResults.xcresult  # Xcodeのテスト結果バンドル
+          test_results.json     # JSON形式のテスト結果
+          detailed_tests.json   # 詳細なテスト結果
+          coverage.json         # コードカバレッジ情報
+        retention-days: 30  # 30日間保存
     
     # テスト失敗時の詳細ログ出力
     - name: Show Test Failures
@@ -251,25 +338,48 @@ jobs:
           echo "❌ No test results found for failure analysis"
         fi
 
-  # テスト結果のサマリー作成
+  # 📋 テスト結果のサマリー作成
+  # メインのテストジョブ完了後に、結果をまとめて表示
   test-summary:
-    name: Test Summary
-    runs-on: ubuntu-latest
-    needs: test
-    if: always()
+    name: Test Summary  # サマリージョブの表示名
+    runs-on: ubuntu-latest  # 軽量なUbuntuランナーを使用
+    needs: test  # testジョブの完了を待つ
+    if: always()  # testジョブが成功・失敗に関わらず実行
     
     steps:
+    # 📊 GitHub Actions Summary にテスト結果を表示
     - name: Test Summary
       run: |
         {
-          echo "## Test Results Summary"
-          echo "- Branch: ${{ github.ref_name }}"
-          echo "- Commit: ${{ github.sha }}"
-          echo "- Test Status: ${{ needs.test.result }}"
+          echo "# 🧪 DOTENKO V3 Test Results"
+          echo ""
+          echo "## 📊 Summary Information"
+          echo "- **Branch**: ${{ github.ref_name }}"
+          echo "- **Commit**: ${{ github.sha }}"
+          echo "- **Test Status**: ${{ needs.test.result }}"
+          echo "- **Test Date**: $(date '+%Y-%m-%d %H:%M:%S UTC')"
           echo ""
           if [ "${{ needs.test.result }}" == "success" ]; then
-            echo "✅ All tests passed successfully!"
+            echo "## ✅ Test Result: SUCCESS"
+            echo ""
+            echo "🎉 All tests passed successfully!"
+            echo ""
+            echo "### What this means:"
+            echo "- ✅ All unit tests are working correctly"
+            echo "- ✅ NavigationManager functionality is verified"
+            echo "- ✅ App components are properly tested"
+            echo "- ✅ Code is ready for deployment"
           else
-            echo "❌ Some tests failed. Check the test job for details."
+            echo "## ❌ Test Result: FAILURE"
+            echo ""
+            echo "⚠️ Some tests failed. Please check the test job for details."
+            echo ""
+            echo "### Next steps:"
+            echo "- 🔍 Review the test failure details above"
+            echo "- 🛠️ Fix the failing tests"
+            echo "- 🔄 Push the fixes to trigger a new test run"
           fi
+          echo ""
+          echo "---"
+          echo "*Generated by GitHub Actions*"
         } >> "$GITHUB_STEP_SUMMARY"
