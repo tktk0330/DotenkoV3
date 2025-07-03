@@ -118,7 +118,7 @@ jobs:
       if: always()  # テストが失敗してもレポートを生成
       run: |
         if [ -d "TestResults.xcresult" ]; then
-          xcrun xcresulttool get --format json --path TestResults.xcresult > test_results.json
+          xcrun xcresulttool get --legacy --format json --path TestResults.xcresult > test_results.json
           echo "Test results generated"
         else
           echo "No test results found"
@@ -159,7 +159,7 @@ jobs:
       if: failure()
       run: |
         if [ -d "TestResults.xcresult" ]; then
-          xcrun xcresulttool get --format json --path TestResults.xcresult | jq '.issues.testFailureSummaries'
+          xcrun xcresulttool get --legacy --format json --path TestResults.xcresult | jq '.issues.testFailureSummaries'
         fi
 
   # テスト結果のサマリー作成
