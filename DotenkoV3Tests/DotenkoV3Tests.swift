@@ -21,12 +21,35 @@ struct NavigationManagerTests {
         fullScreenManager = NavigationAllViewStateManager.shared
     }
     
+    // MARK: - Helper Methods
+    
+    /// 全画面表示を完全にリセットするヘルパーメソッド
+    /// 内部スタックが空になるまで繰り返しdismissを実行
+    private func resetFullScreenCompletely() async {
+        // 最大10回まで試行（無限ループ防止）
+        for _ in 0..<10 {
+            if !fullScreenManager.isFullScreenPresented {
+                break
+            }
+            fullScreenManager.dismissFullScreen(animated: false)
+            try? await Task.sleep(for: .milliseconds(100))
+        }
+        
+        // 遷移状態が完了するまで待機
+        for _ in 0..<10 {
+            if !fullScreenManager.isTransitioning {
+                break
+            }
+            try? await Task.sleep(for: .milliseconds(100))
+        }
+    }
+    
     // MARK: - Core Navigation Tests (主要機能のみ)
     
     @Test("Push操作のテスト")
     func pushOperation() async {
         // 初期化
-        navigationManager.resetToInitialForTesting()
+        navigationManager.resetToInitial()
         try? await Task.sleep(for: .milliseconds(200))
         
         let testView = Text("Test View")
@@ -42,7 +65,7 @@ struct NavigationManagerTests {
     @Test("Replace操作のテスト")
     func replaceOperation() async {
         // 初期化
-        navigationManager.resetToInitialForTesting()
+        navigationManager.resetToInitial()
         try? await Task.sleep(for: .milliseconds(200))
         
         let firstView = Text("First View")
@@ -66,34 +89,43 @@ struct NavigationManagerTests {
     @Test("全画面表示のPresentFullScreen操作テスト")
     func presentFullScreenOperation() async {
         // 初期化
-        fullScreenManager.forceResetForTesting()
+        await resetFullScreenCompletely()
         
         let testView = Text("Full Screen Test View")
         
         // 全画面表示
         fullScreenManager.presentFullScreen(testView, animated: false)
+        try? await Task.sleep(for: .milliseconds(100))
         
         #expect(fullScreenManager.currentFullScreenView != nil, "全画面ビューが設定される")
         #expect(fullScreenManager.isFullScreenPresented == true, "全画面表示フラグがtrueになる")
+        
+        // テスト終了時のクリーンアップ
+        await resetFullScreenCompletely()
     }
     
     @Test("全画面表示のReplaceFullScreen操作テスト")
     func replaceFullScreenOperation() async {
         // 初期化
-        fullScreenManager.forceResetForTesting()
+        await resetFullScreenCompletely()
         
         let firstView = Text("First Full Screen View")
         let replacementView = Text("Replacement Full Screen View")
         
         // 最初の全画面表示
         fullScreenManager.presentFullScreen(firstView, animated: false)
+        try? await Task.sleep(for: .milliseconds(100))
         #expect(fullScreenManager.currentFullScreenView != nil, "最初の全画面ビューが表示される")
         #expect(fullScreenManager.isFullScreenPresented == true, "全画面表示フラグがtrueになる")
         
         // 置き換え（replaceFullScreenはisFullScreenPresentedを変更しない）
         fullScreenManager.replaceFullScreen(with: replacementView, animated: false)
+        try? await Task.sleep(for: .milliseconds(100))
         #expect(fullScreenManager.currentFullScreenView != nil, "置き換え後も全画面ビューが表示される")
         #expect(fullScreenManager.isFullScreenPresented == true, "全画面表示フラグは変わらない")
+        
+        // テスト終了時のクリーンアップ
+        await resetFullScreenCompletely()
     }
     
     // MARK: - Integration Tests (統合テスト)
@@ -101,8 +133,8 @@ struct NavigationManagerTests {
     @Test("通常画面と全画面の連携テスト")
     func navigationAndFullScreenIntegration() async {
         // 初期化
-        navigationManager.resetToInitialForTesting()
-        fullScreenManager.forceResetForTesting()
+        navigationManager.resetToInitial()
+        await resetFullScreenCompletely()
         try? await Task.sleep(for: .milliseconds(200))
         
         let normalView = Text("Normal View")
@@ -115,6 +147,7 @@ struct NavigationManagerTests {
         
         // 全画面を表示
         fullScreenManager.presentFullScreen(fullScreenView, animated: false)
+        try? await Task.sleep(for: .milliseconds(100))
         #expect(fullScreenManager.currentFullScreenView != nil, "全画面ビューが表示される")
         
         // 通常画面スタックは影響を受けない
@@ -122,6 +155,9 @@ struct NavigationManagerTests {
         
         // 全画面表示中でも通常画面スタックは独立して動作
         #expect(fullScreenManager.isFullScreenPresented == true, "全画面が表示されている")
+        
+        // テスト終了時のクリーンアップ
+        await resetFullScreenCompletely()
     }
     
     // MARK: - Basic Safety Tests (基本安全性テスト)
@@ -129,7 +165,7 @@ struct NavigationManagerTests {
     @Test("空スタックでの操作安全性テスト")
     func emptyStackSafetyTest() async {
         // 初期化
-        navigationManager.resetToInitialForTesting()
+        navigationManager.resetToInitial()
         try? await Task.sleep(for: .milliseconds(200))
         
         // 空スタックでの操作がクラッシュしないことを確認
@@ -143,7 +179,7 @@ struct NavigationManagerTests {
     @Test("全画面状態の基本テスト")
     func fullScreenBasicTest() async {
         // 初期化
-        fullScreenManager.forceResetForTesting()
+        await resetFullScreenCompletely()
         
         #expect(fullScreenManager.currentFullScreenView == nil, "初期状態では全画面ビューは表示されていない")
         #expect(fullScreenManager.isFullScreenPresented == false, "初期状態では全画面表示されていない")

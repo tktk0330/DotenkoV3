@@ -102,7 +102,7 @@ class NavigationStateManager: ObservableObject {
             performPush(wrapper)
         }
         
-        resetNavigatingState()
+        resetNavigatingState(animated: animated)
     }
     
     /// 現在の画面からポップ（戻る）
@@ -118,7 +118,7 @@ class NavigationStateManager: ObservableObject {
             performPop()
         }
         
-        resetNavigatingState()
+        resetNavigatingState(animated: animated)
     }
     
     /// ルート画面まで戻る
@@ -134,7 +134,7 @@ class NavigationStateManager: ObservableObject {
             performPopToRoot()
         }
         
-        resetNavigatingState()
+        resetNavigatingState(animated: animated)
     }
     
     /// 現在のスタックを置き換え
@@ -154,7 +154,7 @@ class NavigationStateManager: ObservableObject {
             performReplace(wrapper)
         }
         
-        resetNavigatingState()
+        resetNavigatingState(animated: animated)
     }
     
     /// ナビゲーションスタックをクリア
@@ -162,11 +162,6 @@ class NavigationStateManager: ObservableObject {
         withAnimation(.easeInOut(duration: 0.1)) {
             setupInitialScreen()
         }
-    }
-    
-    /// テスト用：アニメーションなしでナビゲーションスタックをクリア
-    func resetToInitialForTesting() {
-        setupInitialScreen()
     }
     
     // MARK: - Private Methods
@@ -178,8 +173,13 @@ class NavigationStateManager: ObservableObject {
     }
     
     /// ナビゲーション状態をリセット
-    private func resetNavigatingState() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+    /// - Parameter animated: アニメーションありの場合は非同期でリセット、なしの場合は同期でリセット
+    private func resetNavigatingState(animated: Bool = true) {
+        if animated {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isNavigating = false
+            }
+        } else {
             self.isNavigating = false
         }
     }
@@ -216,14 +216,6 @@ class NavigationStateManager: ObservableObject {
         } else {
             viewStack[viewStack.count - 1] = wrapper
         }
-    }
-    
-    /// デバッグ用：現在のスタック状態を出力
-    func printStackState() {
-        print("=== Navigation Stack State ===")
-        print("Stack Count: \(viewStack.count)")
-        print("Is Navigating: \(isNavigating)")
-        print("===============================")
     }
 }
 
@@ -293,11 +285,7 @@ class NavigationAllViewStateManager: ObservableObject {
             performDismissFullScreen()
         }
         
-        // 遷移状態のリセットのみ行う
-        // currentFullScreenViewはperformDismissFullScreenで適切に処理される
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.isTransitioning = false
-        }
+        resetTransitionState()
     }
     
     /// 全画面表示を別のViewに置き換え
@@ -305,7 +293,7 @@ class NavigationAllViewStateManager: ObservableObject {
     ///   - view: 表示するView
     ///   - animated: アニメーションを有効にするか
     func replaceFullScreen<V: View>(with view: V, animated: Bool = true) {
-        guard !isTransitioning else { return }
+        guard !isTransitioning, isFullScreenPresented else { return }
         
         let wrapper = ViewWrapper(view: view)
         
@@ -318,23 +306,6 @@ class NavigationAllViewStateManager: ObservableObject {
         }
         
         resetTransitionState()
-    }
-    
-    /// デバッグ用：現在の全画面状態を出力
-    func printFullScreenState() {
-        print("=== Full Screen State ===")
-        print("Is Presented: \(isFullScreenPresented)")
-        print("Is Transitioning: \(isTransitioning)")
-        print("Stack count: \(viewStack.count)")
-        print("=========================")
-    }
-    
-    /// テスト用：全画面状態を強制的にリセット
-    func forceResetForTesting() {
-        currentFullScreenView = nil
-        isFullScreenPresented = false
-        isTransitioning = false
-        viewStack.removeAll()
     }
     
     // MARK: - Private Methods
