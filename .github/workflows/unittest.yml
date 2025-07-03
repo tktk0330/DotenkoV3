@@ -170,13 +170,15 @@ jobs:
     steps:
     - name: Test Summary
       run: |
-        echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
-        echo "- Branch: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-        echo "- Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-        echo "- Test Status: ${{ needs.test.result }}" >> $GITHUB_STEP_SUMMARY
-        
-        if [ "${{ needs.test.result }}" == "success" ]; then
-          echo "✅ All tests passed successfully!" >> $GITHUB_STEP_SUMMARY
-        else
-          echo "❌ Some tests failed. Check the test job for details." >> $GITHUB_STEP_SUMMARY
-        fi
+        {
+          echo "## Test Results Summary"
+          echo "- Branch: ${{ github.ref_name }}"
+          echo "- Commit: ${{ github.sha }}"
+          echo "- Test Status: ${{ needs.test.result }}"
+          echo ""
+          if [ "${{ needs.test.result }}" == "success" ]; then
+            echo "✅ All tests passed successfully!"
+          else
+            echo "❌ Some tests failed. Check the test job for details."
+          fi
+        } >> "$GITHUB_STEP_SUMMARY"
