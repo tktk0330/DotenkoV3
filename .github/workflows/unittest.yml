@@ -17,10 +17,9 @@ jobs:
     
     strategy:
       matrix:
-        # 利用可能なシミュレーターでテスト実行
+        # 利用可能なシミュレーターでテスト実行（iOS 18.2でテストターゲットと一致）
         destination: [
-          'platform=iOS Simulator,name=iPhone 16,OS=18.0',
-          'platform=iOS Simulator,name=iPhone SE (3rd generation),OS=18.0'
+          'platform=iOS Simulator,name=iPhone 16,OS=18.2'
         ]
     
     steps:
