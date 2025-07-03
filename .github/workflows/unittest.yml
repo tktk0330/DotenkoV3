@@ -69,6 +69,25 @@ jobs:
         # ファイルの存在確認
         echo "📁 Secret files status:"
         ls -la DotenkoV3/Config/Config.swift DotenkoV3/Info.plist DotenkoV3/GoogleService-Info.plist 2>/dev/null || echo "Some files missing"
+        
+        # ファイル内容の簡易検証
+        echo ""
+        echo "🔍 File content validation:"
+        if [ -f "DotenkoV3/Config/Config.swift" ]; then
+          echo "✅ Config.swift: $(wc -l < DotenkoV3/Config/Config.swift) lines, $(wc -c < DotenkoV3/Config/Config.swift) bytes"
+          echo "   First line: $(head -1 DotenkoV3/Config/Config.swift)"
+        fi
+        
+        if [ -f "DotenkoV3/Info.plist" ]; then
+          echo "✅ Info.plist: $(wc -c < DotenkoV3/Info.plist) bytes"
+          echo "   Contains <?xml: $(grep -c '<?xml' DotenkoV3/Info.plist || echo 0)"
+        fi
+        
+        if [ -f "DotenkoV3/GoogleService-Info.plist" ]; then
+          echo "✅ GoogleService-Info.plist: $(wc -c < DotenkoV3/GoogleService-Info.plist) bytes"
+          echo "   Contains <?xml: $(grep -c '<?xml' DotenkoV3/GoogleService-Info.plist || echo 0)"
+        fi
+        
         echo "ℹ️ AdMob設定はConfig.swiftで管理されています"
     
     # Xcodeバージョンの設定
@@ -99,10 +118,26 @@ jobs:
         xcrun simctl list devicetypes
         xcrun simctl list runtimes
     
+    # プロジェクト情報の確認
+    - name: Verify Project Configuration
+      run: |
+        echo "📋 Checking project configuration..."
+        xcodebuild -list -workspace DotenkoV3.xcworkspace
+        echo ""
+        echo "📁 Checking secret files..."
+        ls -la DotenkoV3/Config/
+        echo ""
+        echo "🔍 Checking Config.swift content (first 10 lines)..."
+        head -10 DotenkoV3/Config/Config.swift || echo "Config.swift not found or empty"
+    
     # テストの実行
     - name: Run Unit Tests
       run: |
-        xcodebuild test \
+        echo "🚀 Starting Unit Tests..."
+        echo "📱 Testing on: ${{ matrix.destination }}"
+        
+        # テスト実行
+        if xcodebuild test \
           -workspace DotenkoV3.xcworkspace \
           -scheme DotenkoV3 \
           -destination '${{ matrix.destination }}' \
@@ -111,17 +146,42 @@ jobs:
           -derivedDataPath DerivedData \
           -resultBundlePath TestResults.xcresult \
           CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGNING_ALLOWED=NO; then
+          echo "✅ Unit tests completed successfully"
+        else
+          echo "❌ Unit tests failed"
+          # テスト結果が生成されているか確認
+          if [ -d "TestResults.xcresult" ]; then
+            echo "📊 Test results bundle was created despite failures"
+          else
+            echo "⚠️ No test results bundle found"
+          fi
+          exit 1
+        fi
     
     # テスト結果の解析とレポート生成
     - name: Generate Test Report
       if: always()  # テストが失敗してもレポートを生成
       run: |
         if [ -d "TestResults.xcresult" ]; then
-          xcrun xcresulttool get --legacy --format json --path TestResults.xcresult > test_results.json
-          echo "Test results generated"
+          echo "🔍 Generating test report..."
+          # 新しい推奨方法でテスト結果を取得
+          if xcrun xcresulttool get test-results summary --path TestResults.xcresult --format json > test_results.json 2>/dev/null; then
+            echo "✅ Test results generated using new format"
+          else
+            echo "⚠️ New format failed, trying legacy format..."
+            # フォールバック: レガシー形式で取得
+            if xcrun xcresulttool get --legacy --format json --path TestResults.xcresult > test_results.json 2>/dev/null; then
+              echo "✅ Test results generated using legacy format"
+            else
+              echo "❌ Failed to generate test results"
+              # 最低限のレポートファイルを作成
+              echo '{"status": "error", "message": "Failed to parse test results"}' > test_results.json
+            fi
+          fi
         else
-          echo "No test results found"
+          echo "❌ No test results found"
+          echo '{"status": "error", "message": "No test results found"}' > test_results.json
         fi
     
     # コードカバレッジの生成
@@ -159,7 +219,36 @@ jobs:
       if: failure()
       run: |
         if [ -d "TestResults.xcresult" ]; then
-          xcrun xcresulttool get --legacy --format json --path TestResults.xcresult | jq '.issues.testFailureSummaries'
+          echo "🔍 Analyzing test failures..."
+          # 新しい推奨方法でテスト失敗情報を取得
+          if xcrun xcresulttool get test-results tests --path TestResults.xcresult --format json > test_failures.json 2>/dev/null; then
+            echo "✅ Test failure analysis using new format"
+            # テスト失敗の詳細を表示
+            if command -v jq >/dev/null 2>&1; then
+              echo "📊 Test failure summary:"
+              jq '.tests[] | select(.status == "failed") | {name: .name, status: .status}' test_failures.json || echo "No specific failures found"
+            else
+              echo "📄 Raw test failure data:"
+              head -20 test_failures.json
+            fi
+          else
+            echo "⚠️ New format failed, trying legacy format..."
+            # フォールバック: レガシー形式で取得
+            if xcrun xcresulttool get --legacy --format json --path TestResults.xcresult > legacy_results.json 2>/dev/null; then
+              echo "✅ Test failure analysis using legacy format"
+              if command -v jq >/dev/null 2>&1; then
+                echo "📊 Legacy format failure summary:"
+                jq '.issues.testFailureSummaries' legacy_results.json 2>/dev/null || echo "No failure summaries found"
+              else
+                echo "📄 Raw legacy failure data:"
+                head -20 legacy_results.json
+              fi
+            else
+              echo "❌ Failed to analyze test failures"
+            fi
+          fi
+        else
+          echo "❌ No test results found for failure analysis"
         fi
 
   # テスト結果のサマリー作成
