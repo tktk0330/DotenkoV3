@@ -17,8 +17,11 @@ jobs:
     
     strategy:
       matrix:
-        # 複数のiOSバージョンでテスト実行
-        destination: ['platform=iOS Simulator,name=iPhone 15,OS=17.5']
+        # 利用可能なシミュレーターでテスト実行
+        destination: [
+          'platform=iOS Simulator,name=iPhone 16,OS=18.0',
+          'platform=iOS Simulator,name=iPhone SE (3rd generation),OS=18.0'
+        ]
     
     steps:
     # リポジトリのチェックアウト
@@ -145,7 +148,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results-${{ matrix.destination }}
+        name: test-results-${{ strategy.job-index }}
         path: |
           TestResults.xcresult
           test_results.json
