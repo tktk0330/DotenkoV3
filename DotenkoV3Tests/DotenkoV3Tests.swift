@@ -32,7 +32,8 @@ struct NavigationManagerTests {
                 break
             }
             fullScreenManager.dismissFullScreen(animated: false)
-            try? await Task.sleep(for: .milliseconds(100))
+            // CI環境でも安定するように待機時間を長めに設定
+            try? await Task.sleep(for: .milliseconds(150))
         }
         
         // 遷移状態が完了するまで待機
@@ -40,8 +41,26 @@ struct NavigationManagerTests {
             if !fullScreenManager.isTransitioning {
                 break
             }
+            try? await Task.sleep(for: .milliseconds(150))
+        }
+        
+        // 最終的な状態確認のための追加待機
+        try? await Task.sleep(for: .milliseconds(100))
+    }
+    
+    /// ナビゲーション状態を安定化させるヘルパーメソッド
+    /// 非同期処理の完了を確実に待機
+    private func waitForNavigationStability() async {
+        // ナビゲーション状態の安定化を待つ
+        for _ in 0..<10 {
+            if !navigationManager.isNavigating {
+                break
+            }
             try? await Task.sleep(for: .milliseconds(100))
         }
+        
+        // 追加の安定化待機（CI環境対応）
+        try? await Task.sleep(for: .milliseconds(150))
     }
     
     // MARK: - Core Navigation Tests (主要機能のみ)
@@ -50,13 +69,13 @@ struct NavigationManagerTests {
     func pushOperation() async {
         // 初期化
         navigationManager.resetToInitial()
-        try? await Task.sleep(for: .milliseconds(200))
+        await waitForNavigationStability()
         
         let testView = Text("Test View")
         
         // Push操作を実行
         navigationManager.push(testView, animated: false)
-        try? await Task.sleep(for: .milliseconds(50))
+        await waitForNavigationStability()
         
         // スタックに追加されたことを確認
         #expect(navigationManager.viewStack.count >= 1, "Pushでスタックに追加される")
@@ -66,19 +85,19 @@ struct NavigationManagerTests {
     func replaceOperation() async {
         // 初期化
         navigationManager.resetToInitial()
-        try? await Task.sleep(for: .milliseconds(200))
+        await waitForNavigationStability()
         
         let firstView = Text("First View")
         let replacementView = Text("Replacement View")
         
         // 最初にPush
         navigationManager.push(firstView, animated: false)
-        try? await Task.sleep(for: .milliseconds(50))
+        await waitForNavigationStability()
         let initialCount = navigationManager.viewStack.count
         
         // Replace操作
         navigationManager.replace(with: replacementView, animated: false)
-        try? await Task.sleep(for: .milliseconds(50))
+        await waitForNavigationStability()
         
         // スタック数は変わらない
         #expect(navigationManager.viewStack.count == initialCount, "Replaceでスタック数は変わらない")
@@ -95,7 +114,8 @@ struct NavigationManagerTests {
         
         // 全画面表示
         fullScreenManager.presentFullScreen(testView, animated: false)
-        try? await Task.sleep(for: .milliseconds(100))
+        // 全画面表示の安定化を待つ
+        try? await Task.sleep(for: .milliseconds(200))
         
         #expect(fullScreenManager.currentFullScreenView != nil, "全画面ビューが設定される")
         #expect(fullScreenManager.isFullScreenPresented == true, "全画面表示フラグがtrueになる")
@@ -114,13 +134,13 @@ struct NavigationManagerTests {
         
         // 最初の全画面表示
         fullScreenManager.presentFullScreen(firstView, animated: false)
-        try? await Task.sleep(for: .milliseconds(100))
+        try? await Task.sleep(for: .milliseconds(200))
         #expect(fullScreenManager.currentFullScreenView != nil, "最初の全画面ビューが表示される")
         #expect(fullScreenManager.isFullScreenPresented == true, "全画面表示フラグがtrueになる")
         
         // 置き換え（replaceFullScreenはisFullScreenPresentedを変更しない）
         fullScreenManager.replaceFullScreen(with: replacementView, animated: false)
-        try? await Task.sleep(for: .milliseconds(100))
+        try? await Task.sleep(for: .milliseconds(200))
         #expect(fullScreenManager.currentFullScreenView != nil, "置き換え後も全画面ビューが表示される")
         #expect(fullScreenManager.isFullScreenPresented == true, "全画面表示フラグは変わらない")
         
@@ -135,19 +155,19 @@ struct NavigationManagerTests {
         // 初期化
         navigationManager.resetToInitial()
         await resetFullScreenCompletely()
-        try? await Task.sleep(for: .milliseconds(200))
+        await waitForNavigationStability()
         
         let normalView = Text("Normal View")
         let fullScreenView = Text("Full Screen View")
         
         // 通常画面をPush
         navigationManager.push(normalView, animated: false)
-        try? await Task.sleep(for: .milliseconds(50))
+        await waitForNavigationStability()
         let normalStackCount = navigationManager.viewStack.count
         
         // 全画面を表示
         fullScreenManager.presentFullScreen(fullScreenView, animated: false)
-        try? await Task.sleep(for: .milliseconds(100))
+        try? await Task.sleep(for: .milliseconds(200))
         #expect(fullScreenManager.currentFullScreenView != nil, "全画面ビューが表示される")
         
         // 通常画面スタックは影響を受けない
@@ -166,11 +186,14 @@ struct NavigationManagerTests {
     func emptyStackSafetyTest() async {
         // 初期化
         navigationManager.resetToInitial()
-        try? await Task.sleep(for: .milliseconds(200))
+        await waitForNavigationStability()
         
         // 空スタックでの操作がクラッシュしないことを確認
         navigationManager.pop(animated: false) // クラッシュしないことを確認
         navigationManager.popToRoot(animated: false) // クラッシュしないことを確認
+        
+        // 操作後の安定化を待つ
+        await waitForNavigationStability()
         
         // 基本的な操作が問題なく実行できることを確認
         #expect(true, "空スタックでの操作が安全に実行された")

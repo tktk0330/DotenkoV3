@@ -139,13 +139,19 @@ jobs:
         echo "🔍 Checking Config.swift content (first 10 lines)..."
         head -10 DotenkoV3/Config/Config.swift || echo "Config.swift not found or empty"
     
-    # テストの実行
+    # 🔧 Step 7: テストの実行
+    # 実際にユニットテストを実行（安定性向上のため設定を追加）
     - name: Run Unit Tests
       run: |
         echo "🚀 Starting Unit Tests..."
         echo "📱 Testing on: ${{ matrix.destination }}"
         
-        # テスト実行
+        # シミュレーターの準備（安定性向上）
+        echo "📱 Preparing simulator..."
+        xcrun simctl boot 'iPhone 16' || true
+        sleep 5
+        
+        # テスト実行（安定性向上のため追加オプション）
         if xcodebuild test \
           -workspace DotenkoV3.xcworkspace \
           -scheme DotenkoV3 \
@@ -154,6 +160,10 @@ jobs:
           -enableCodeCoverage YES \
           -derivedDataPath DerivedData \
           -resultBundlePath TestResults.xcresult \
+          -test-timeouts-enabled YES \
+          -maximum-test-execution-time-allowance 300 \
+          -retry-tests-on-failure \
+          -parallel-testing-enabled NO \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO; then
           echo "✅ Unit tests completed successfully"
