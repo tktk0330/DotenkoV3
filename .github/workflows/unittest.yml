@@ -13,7 +13,7 @@ concurrency:
 jobs:
   test:
     name: Run Unit Tests
-    runs-on: macos-14  # Xcode 15.4以降をサポート
+    runs-on: macos-15  # Xcode 16をサポートするためmacos-15に変更
     
     strategy:
       matrix:
@@ -73,7 +73,7 @@ jobs:
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '15.4'
+        xcode-version: '16.2'  # プロジェクトファイル形式77をサポートするバージョンに変更
     
     # CocoaPodsのキャッシュ設定
     - name: Cache CocoaPods
