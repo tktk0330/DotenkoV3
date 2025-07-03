@@ -41,17 +41,6 @@
                ReferencedContainer = "container:DotenkoV3.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5DF720602E0AE3080044951D"
-               BuildableName = "DotenkoV3UITests.xctest"
-               BlueprintName = "DotenkoV3UITests"
-               ReferencedContainer = "container:DotenkoV3.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
