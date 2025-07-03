@@ -63,6 +63,7 @@ fastlane/test_output
 
 .DS_Store
 
-# 個別ファイルの除外
+# 個別ファイルの除外（機密ファイル）
 /DotenkoV3/Config/Config.swift
 /DotenkoV3/GoogleService-Info.plist
+/DotenkoV3/Info.plist

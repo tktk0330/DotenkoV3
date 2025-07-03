@@ -1,1 +1,576 @@
+name: Unit Tests
 
+# 🚀 GitHub Actionsの基本設定
+# このワークフローがいつ実行されるかを定義
+on:
+  pull_request:
+    branches: [ main, develop ]  # main または develop ブランチへのPull Request時に実行
+
+# 🔄 並列実行の制限設定
+# 同じブランチで複数のワークフローが同時実行されないように制御
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}  # ワークフロー名とブランチ名でグループ化
+  cancel-in-progress: true  # 新しいワークフローが開始されたら、実行中のものをキャンセル
+
+jobs:
+  test:
+    name: Run Unit Tests  # ジョブの表示名
+    runs-on: macos-15  # 🖥️ macOS 15 (Xcode 16をサポート)
+    
+    # 📱 テスト実行環境の設定
+    # 複数のデバイス・OSバージョンでテストを実行したい場合に使用
+    strategy:
+      matrix:
+        # テスト対象のシミュレーター設定
+        destination: [
+          'platform=iOS Simulator,name=iPhone 16,OS=18.2'  # iPhone 16, iOS 18.2
+        ]
+    
+    steps:
+    # 📥 Step 1: リポジトリのソースコードをダウンロード
+    - name: Checkout code
+      uses: actions/checkout@v4  # GitHubが提供する公式アクション
+      with:
+        fetch-depth: 0  # 全履歴を取得（通常は最新のコミットのみでOK）
+    
+    # 🔐 Step 2: 機密ファイルの復元
+    # GitHubのSecretsに保存されたファイルをBASE64から復元
+    - name: Restore Secret Files
+      env:
+        # 環境変数として機密情報を設定
+        CONFIG_BASE64: ${{ secrets.CONFIG_BASE64 }}  # アプリ設定ファイル
+        GOOGLE_SERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}  # Firebase設定
+        INFO_PLIST_BASE64: ${{ secrets.INFO_PLIST_BASE64 }}  # アプリ情報ファイル
+      run: |
+        # Config.swiftの復元
+        # Config.swiftの復元
+        if [ -n "$CONFIG_BASE64" ]; then
+          if echo "$CONFIG_BASE64" | base64 --decode > DotenkoV3/Config/Config.swift; then
+            echo "✅ Config.swift restored from secrets"
+          else
+            echo "❌ Failed to decode CONFIG_BASE64 secret"
+            exit 1
+          fi
+        else
+          echo "⚠️ CONFIG_BASE64 secret not found"
+        fi
+        
+        # Info.plistの復元
+        if [ -n "$INFO_PLIST_BASE64" ]; then
+          echo "$INFO_PLIST_BASE64" | base64 --decode > DotenkoV3/Info.plist
+          echo "✅ Info.plist restored from secrets"
+        else
+          echo "⚠️ INFO_PLIST_BASE64 secret not found, using existing file"
+        fi
+        
+        # GoogleService-Info.plistの復元
+        if [ -n "$GOOGLE_SERVICE_INFO_PLIST_BASE64" ]; then
+          echo "$GOOGLE_SERVICE_INFO_PLIST_BASE64" | base64 --decode > DotenkoV3/GoogleService-Info.plist
+          echo "✅ GoogleService-Info.plist restored from secrets"
+        else
+          echo "⚠️ GOOGLE_SERVICE_INFO_PLIST_BASE64 secret not found"
+          echo "ℹ️ Firebase設定が必要な場合はSecretsに設定してください"
+        fi
+        
+        # ファイルの存在確認
+        echo "📁 Secret files status:"
+        ls -la DotenkoV3/Config/Config.swift DotenkoV3/Info.plist DotenkoV3/GoogleService-Info.plist 2>/dev/null || echo "Some files missing"
+        
+        # ファイル内容の簡易検証
+        echo ""
+        echo "🔍 File content validation:"
+        if [ -f "DotenkoV3/Config/Config.swift" ]; then
+          echo "✅ Config.swift: $(wc -l < DotenkoV3/Config/Config.swift) lines, $(wc -c < DotenkoV3/Config/Config.swift) bytes"
+          echo "   First line: $(head -1 DotenkoV3/Config/Config.swift)"
+        fi
+        
+        if [ -f "DotenkoV3/Info.plist" ]; then
+          echo "✅ Info.plist: $(wc -c < DotenkoV3/Info.plist) bytes"
+          echo "   Contains <?xml: $(grep -c '<?xml' DotenkoV3/Info.plist || echo 0)"
+        fi
+        
+        if [ -f "DotenkoV3/GoogleService-Info.plist" ]; then
+          echo "✅ GoogleService-Info.plist: $(wc -c < DotenkoV3/GoogleService-Info.plist) bytes"
+          echo "   Contains <?xml: $(grep -c '<?xml' DotenkoV3/GoogleService-Info.plist || echo 0)"
+        fi
+        
+        echo "ℹ️ AdMob設定はConfig.swiftで管理されています"
+    
+    # 🔧 Step 3: Xcodeバージョンの設定
+    # 特定のXcodeバージョンを指定して使用
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1  # Xcode設定用の公式アクション
+      with:
+        xcode-version: '16.2'  # Xcode 16.2を使用（プロジェクトファイル形式77をサポート）
+    
+    # 🗄️ Step 4: CocoaPodsのキャッシュ設定
+    # 依存関係のダウンロード時間を短縮するためのキャッシュ機能
+    - name: Cache CocoaPods
+      uses: actions/cache@v4  # GitHubが提供するキャッシュアクション
+      with:
+        path: Pods  # キャッシュ対象のディレクトリ
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}  # キャッシュのキー
+        restore-keys: |
+          ${{ runner.os }}-pods-  # キャッシュが見つからない場合の代替キー
+    
+    # 📦 Step 5: CocoaPodsの依存関係インストール
+    # iOSアプリの外部ライブラリ（Google Mobile Ads SDKなど）をインストール
+    - name: Install CocoaPods dependencies
+      run: |
+        gem install cocoapods  # CocoaPodsツールをインストール
+        pod install --repo-update  # Podfileに記載された依存関係をインストール
+    
+    # Xcodeプロジェクトのビルド設定確認
+    - name: Show Xcode version and available simulators
+      run: |
+        xcodebuild -version
+        xcrun simctl list devicetypes
+        xcrun simctl list runtimes
+    
+    # プロジェクト情報の確認
+    - name: Verify Project Configuration
+      run: |
+        echo "📋 Checking project configuration..."
+        xcodebuild -list -workspace DotenkoV3.xcworkspace
+        echo ""
+        echo "📁 Checking secret files..."
+        ls -la DotenkoV3/Config/
+        echo ""
+        echo "🔍 Checking Config.swift content (first 10 lines)..."
+        head -10 DotenkoV3/Config/Config.swift || echo "Config.swift not found or empty"
+    
+    # 🔧 Step 7: テストの実行
+    # 実際にユニットテストを実行（安定性向上のため設定を追加）
+    - name: Run Unit Tests
+      run: |
+        echo "🚀 Starting Unit Tests..."
+        echo "📱 Testing on: ${{ matrix.destination }}"
+        
+        # シミュレーターの準備（安定性向上）
+        echo "📱 Preparing simulator..."
+        xcrun simctl boot 'iPhone 16' || true
+        sleep 5
+        
+        # テスト実行（安定性向上のため追加オプション）
+        if xcodebuild test \
+          -workspace DotenkoV3.xcworkspace \
+          -scheme DotenkoV3 \
+          -destination '${{ matrix.destination }}' \
+          -configuration Debug \
+          -enableCodeCoverage YES \
+          -derivedDataPath DerivedData \
+          -resultBundlePath TestResults.xcresult \
+          -test-timeouts-enabled YES \
+          -maximum-test-execution-time-allowance 300 \
+          -retry-tests-on-failure \
+          -parallel-testing-enabled NO \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGNING_ALLOWED=NO; then
+          echo "✅ Unit tests completed successfully"
+        else
+          echo "❌ Unit tests failed"
+          # テスト結果が生成されているか確認
+          if [ -d "TestResults.xcresult" ]; then
+            echo "📊 Test results bundle was created despite failures"
+          else
+            echo "⚠️ No test results bundle found"
+          fi
+          exit 1
+        fi
+    
+    # 📊 Step 8: テスト結果の解析とレポート生成
+    # テスト結果を解析して、わかりやすいレポートを作成
+    - name: Generate Test Report
+      if: always()  # テストが失敗してもレポートを生成
+      run: |
+        if [ -d "TestResults.xcresult" ]; then
+          echo "🔍 Generating test report..."
+          # 新しい推奨方法でテスト結果を取得
+          if xcrun xcresulttool get test-results summary --path TestResults.xcresult --format json > test_results.json 2>/dev/null; then
+            echo "✅ Test results generated using new format"
+          else
+            echo "⚠️ New format failed, trying legacy format..."
+            # フォールバック: レガシー形式で取得
+            if xcrun xcresulttool get --legacy --format json --path TestResults.xcresult > test_results.json 2>/dev/null; then
+              echo "✅ Test results generated using legacy format"
+            else
+              echo "❌ Failed to generate test results"
+              # 最低限のレポートファイルを作成
+              echo '{"status": "error", "message": "Failed to parse test results"}' > test_results.json
+            fi
+          fi
+        else
+          echo "❌ No test results found"
+          echo '{"status": "error", "message": "No test results found"}' > test_results.json
+        fi
+    
+    # 🎯 Step 9: カスタムテストレポートの生成
+    # 独自形式でテスト結果を見やすく表示
+    - name: Generate Custom Test Report
+      if: always()
+      run: |
+        echo "📋 ===== DOTENKO V3 TEST REPORT ====="
+        echo "🕐 Test Date: $(date '+%Y-%m-%d %H:%M:%S')"
+        echo "📱 Device: iPhone 16 (iOS 18.2)"
+        echo "🔧 Xcode: 16.2"
+        echo "🌐 Environment: GitHub Actions (macos-15)"
+        echo "⏱️ Report Generated: $(date '+%H:%M:%S UTC')"
+        echo ""
+        
+        # テスト結果の詳細解析
+        if [ -d "TestResults.xcresult" ]; then
+          # 新しい形式でテスト詳細を取得
+          if xcrun xcresulttool get test-results tests --path TestResults.xcresult --format json > detailed_tests.json 2>/dev/null; then
+            echo "🧪 TEST RESULTS SUMMARY:"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            
+            # jqが利用可能かチェック
+            if command -v jq >/dev/null 2>&1; then
+              # テスト総数をカウント
+              total_tests=$(jq '.tests | length' detailed_tests.json 2>/dev/null || echo "0")
+              passed_tests=$(jq '[.tests[] | select(.status == "passed")] | length' detailed_tests.json 2>/dev/null || echo "0")
+              failed_tests=$(jq '[.tests[] | select(.status == "failed")] | length' detailed_tests.json 2>/dev/null || echo "0")
+              skipped_tests=$(jq '[.tests[] | select(.status == "skipped")] | length' detailed_tests.json 2>/dev/null || echo "0")
+              
+              echo "📊 Total Tests: $total_tests"
+              echo "✅ Passed: $passed_tests"
+              echo "❌ Failed: $failed_tests"
+              echo "⏭️ Skipped: $skipped_tests"
+              echo ""
+              
+              # 各テストの詳細を表示
+              echo "📝 INDIVIDUAL TEST RESULTS:"
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              
+              # テスト結果をテストクラス別に整理して表示
+              echo ""
+              echo "🧪 NavigationManagerTests:"
+              echo "├─────────────────────────────────────────────"
+              
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests")) |
+                if .status == "passed" then
+                  "│ ✅ PASS | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                elif .status == "failed" then
+                  "│ ❌ FAIL | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                elif .status == "skipped" then
+                  "│ ⏭️ SKIP | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                else
+                  "│ ❓ " + .status + " | " + (.name | gsub(".*NavigationManagerTests/"; ""))
+                end' detailed_tests.json 2>/dev/null || echo "│ ⚠️ NavigationManagerTests results not found"
+              
+              echo "└─────────────────────────────────────────────"
+              echo ""
+              echo "🔧 ViewWrapperTests:"
+              echo "├─────────────────────────────────────────────"
+              
+              jq -r '.tests[] | 
+                select(.identifier | contains("ViewWrapperTests")) |
+                if .status == "passed" then
+                  "│ ✅ PASS | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                elif .status == "failed" then
+                  "│ ❌ FAIL | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                elif .status == "skipped" then
+                  "│ ⏭️ SKIP | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                else
+                  "│ ❓ " + .status + " | " + (.name | gsub(".*ViewWrapperTests/"; ""))
+                end' detailed_tests.json 2>/dev/null || echo "│ ⚠️ ViewWrapperTests results not found"
+              
+              echo "└─────────────────────────────────────────────"
+              echo ""
+              echo "📊 All Tests Summary:"
+              echo "├─────────────────────────────────────────────"
+              
+              jq -r '.tests[] | 
+                if .status == "passed" then
+                  "│ ✅ PASS | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "failed" then
+                  "│ ❌ FAIL | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "skipped" then
+                  "│ ⏭️ SKIP | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                else
+                  "│ ❓ " + .status + " | " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                end' detailed_tests.json 2>/dev/null || echo "│ ⚠️ Unable to parse individual test results"
+              
+              echo "└─────────────────────────────────────────────"
+              
+              echo ""
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              
+              # 成功率を計算（bcコマンドを使わない方法）
+              if [ "$total_tests" -gt 0 ]; then
+                success_rate=$(awk "BEGIN {printf \"%.1f\", $passed_tests * 100 / $total_tests}" 2>/dev/null || echo "N/A")
+                echo "🎯 Success Rate: $success_rate%"
+                
+                # テスト実行時間の情報を追加（可能であれば）
+                if [ -f "test_results.json" ]; then
+                  duration=$(jq -r '.duration // "N/A"' test_results.json 2>/dev/null || echo "N/A")
+                  echo "⏱️ Total Execution Time: $duration seconds"
+                fi
+                
+                # テストの分類別統計
+                echo ""
+                echo "📈 Test Statistics by Category:"
+                echo "   • Navigation Tests: $(jq '[.tests[] | select(.identifier | contains("NavigationManagerTests"))] | length' detailed_tests.json 2>/dev/null || echo "N/A")"
+                echo "   • ViewWrapper Tests: $(jq '[.tests[] | select(.identifier | contains("ViewWrapperTests"))] | length' detailed_tests.json 2>/dev/null || echo "N/A")"
+              else
+                echo "🎯 Success Rate: N/A"
+              fi
+              
+            else
+              echo "⚠️ jq not available, showing raw test count"
+              echo "📊 Test results file generated successfully"
+            fi
+          else
+            echo "⚠️ Could not parse test results in detail"
+          fi
+        else
+          echo "❌ No test results bundle found"
+        fi
+        
+        echo ""
+        echo "🏁 End of Test Report"
+        echo "======================================"
+    
+    # 📈 Step 10: コードカバレッジの生成
+    # テストがどの程度コードをカバーしているかを測定
+    - name: Generate Code Coverage
+      if: always()
+      run: |
+        if [ -d "DerivedData" ]; then
+          xcrun xccov view --report --json DerivedData/Logs/Test/*.xcresult > coverage.json || true
+          echo "Code coverage generated"
+        else
+          echo "No coverage data found"
+        fi
+    
+    # 🧹 Step 11: 機密ファイルのクリーンアップ
+    # セキュリティのため、テスト終了後に機密ファイルを削除
+    - name: Cleanup Secret Files
+      if: always()  # テストが成功・失敗に関わらず実行
+      run: |
+        rm -f DotenkoV3/Config/Config.swift DotenkoV3/Info.plist DotenkoV3/GoogleService-Info.plist
+        echo "🧹 Secret files cleaned up"
+    
+    # 📤 Step 12: テスト結果のアーティファクト保存
+    # テスト結果ファイルをGitHub Actionsに保存（後でダウンロード可能）
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results  # 固定の名前に変更
+        path: |
+          TestResults.xcresult
+          test_results.json
+          detailed_tests.json
+          coverage.json
+        retention-days: 30
+    
+    # テスト失敗時の詳細ログ出力
+    - name: Show Test Failures
+      if: failure()
+      run: |
+        if [ -d "TestResults.xcresult" ]; then
+          echo "🔍 Analyzing test failures..."
+          # 新しい推奨方法でテスト失敗情報を取得
+          if xcrun xcresulttool get test-results tests --path TestResults.xcresult --format json > test_failures.json 2>/dev/null; then
+            echo "✅ Test failure analysis using new format"
+            # テスト失敗の詳細を表示
+            if command -v jq >/dev/null 2>&1; then
+              echo "📊 DETAILED FAILURE ANALYSIS:"
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              
+              # 失敗したテストの数を確認
+              failed_count=$(jq '[.tests[] | select(.status == "failed")] | length' test_failures.json 2>/dev/null || echo "0")
+              
+              if [ "$failed_count" -gt 0 ]; then
+                echo "❌ Found $failed_count failed test(s):"
+                echo ""
+                
+                # 各失敗テストの詳細を表示
+                jq -r '.tests[] | select(.status == "failed") | 
+                  "🔴 FAILED TEST: " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; "")) + 
+                  "\n   └─ Test Class: " + (.identifier | split("/")[0]) +
+                  "\n   └─ Full Name: " + .name +
+                  "\n   └─ Status: " + .status + "\n"' test_failures.json 2>/dev/null
+                
+                # 失敗の原因情報があれば表示
+                echo "🔍 Failure Details:"
+                jq -r '.tests[] | select(.status == "failed") | 
+                  if .failureMessages then
+                    "   • " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; "")) + ": " + (.failureMessages | join(", "))
+                  else
+                    "   • " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; "")) + ": No detailed failure message available"
+                  end' test_failures.json 2>/dev/null || echo "   • No detailed failure information available"
+                
+              else
+                echo "✅ No failed tests found in detailed analysis"
+              fi
+              
+              echo ""
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            else
+              echo "📄 Raw test failure data (jq not available):"
+              head -20 test_failures.json
+            fi
+          else
+            echo "⚠️ New format failed, trying legacy format..."
+            # フォールバック: レガシー形式で取得
+            if xcrun xcresulttool get --legacy --format json --path TestResults.xcresult > legacy_results.json 2>/dev/null; then
+              echo "✅ Test failure analysis using legacy format"
+              if command -v jq >/dev/null 2>&1; then
+                echo "📊 Legacy format failure summary:"
+                jq '.issues.testFailureSummaries' legacy_results.json 2>/dev/null || echo "No failure summaries found"
+              else
+                echo "📄 Raw legacy failure data:"
+                head -20 legacy_results.json
+              fi
+            else
+              echo "❌ Failed to analyze test failures"
+            fi
+          fi
+        else
+          echo "❌ No test results found for failure analysis"
+        fi
+
+  # 📋 テスト結果のサマリー作成
+  # メインのテストジョブ完了後に、結果をまとめて表示
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+    
+    steps:
+    # Download test results from previous job with improved error handling
+    - name: Download Test Results
+      uses: actions/download-artifact@v4
+      continue-on-error: true  # エラーが発生しても続行
+      with:
+        name: test-results
+        path: test-results
+
+    # Check if download was successful and generate summary
+    - name: Test Summary
+      run: |
+        {
+          echo "# 🧪 DOTENKO V3 Test Results"
+          echo ""
+          echo "## 📊 Summary Information"
+          echo "- **Branch**: ${{ github.ref_name }}"
+          echo "- **Commit**: ${{ github.sha }}"
+          echo "- **Test Status**: ${{ needs.test.result }}"
+          echo "- **Test Date**: $(date '+%Y-%m-%d %H:%M:%S UTC')"
+          echo ""
+          
+          # テスト結果ファイルの存在確認
+          if [ -f "test-results/detailed_tests.json" ]; then
+            if [ "${{ needs.test.result }}" == "success" ]; then
+              echo "## ✅ Test Result: SUCCESS"
+              echo ""
+              echo "🎉 All tests passed successfully!"
+              echo ""
+              echo "### 📋 Test Results by Class:"
+              echo ""
+              
+              # NavigationManagerTests
+              echo "#### 🧪 NavigationManagerTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests")) |
+                "- ✅ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No NavigationManagerTests found"
+              echo ""
+              
+              # ViewWrapperTests
+              echo "#### 🔧 ViewWrapperTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("ViewWrapperTests")) |
+                "- ✅ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No ViewWrapperTests found"
+              echo ""
+              
+              # Other test classes (if any)
+              echo "#### 🔄 Other Tests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests") | not) |
+                select(.identifier | contains("ViewWrapperTests") | not) |
+                "- ✅ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No other tests found"
+              
+              echo ""
+              echo "### What this means:"
+              echo "- ✅ All unit tests are working correctly"
+              echo "- ✅ All components are properly tested"
+              echo "- ✅ Code is ready for deployment"
+            else
+              echo "## ❌ Test Result: FAILURE"
+              echo ""
+              echo "⚠️ Some tests failed. Please check the test job for details."
+              echo ""
+              echo "### 🔍 Test Results by Class:"
+              echo ""
+              
+              # NavigationManagerTests with status
+              echo "#### 🧪 NavigationManagerTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests")) |
+                if .status == "passed" then
+                  "- ✅ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "failed" then
+                  "- ❌ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))
+                else
+                  "- ⏭️ " + (.name | gsub(".*NavigationManagerTests/"; "") | gsub("\\(\\)"; ""))
+                end' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No NavigationManagerTests found"
+              echo ""
+              
+              # ViewWrapperTests with status
+              echo "#### 🔧 ViewWrapperTests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("ViewWrapperTests")) |
+                if .status == "passed" then
+                  "- ✅ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "failed" then
+                  "- ❌ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))
+                else
+                  "- ⏭️ " + (.name | gsub(".*ViewWrapperTests/"; "") | gsub("\\(\\)"; ""))
+                end' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No ViewWrapperTests found"
+              echo ""
+              
+              # Other test classes with status
+              echo "#### 🔄 Other Tests"
+              jq -r '.tests[] | 
+                select(.identifier | contains("NavigationManagerTests") | not) |
+                select(.identifier | contains("ViewWrapperTests") | not) |
+                if .status == "passed" then
+                  "- ✅ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                elif .status == "failed" then
+                  "- ❌ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                else
+                  "- ⏭️ " + (.name | gsub(".*Tests/"; "") | gsub("\\(\\)"; ""))
+                end' \
+                test-results/detailed_tests.json 2>/dev/null || echo "- ⚠️ No other tests found"
+              
+              echo ""
+              echo "### Next steps:"
+              echo "- 🔍 Review the test failure details above"
+              echo "- 🛠️ Fix the failing tests"
+              echo "- 🔄 Push the fixes to trigger a new test run"
+              echo "- 📊 Check the detailed test report in the job logs"
+            fi
+          else
+            echo "## ⚠️ Test Results Not Available"
+            echo ""
+            echo "テスト結果ファイルが見つかりませんでした。以下を確認してください："
+            echo ""
+            echo "1. テストジョブが正常に完了したか"
+            echo "2. アーティファクトが正しくアップロードされたか"
+            echo "3. アーティファクトの保持期間が切れていないか"
+            echo ""
+            echo "テストの実行状態: ${{ needs.test.result }}"
+          fi
+          echo ""
+          echo "---"
+          echo "*Generated by GitHub Actions*"
+        } >> "$GITHUB_STEP_SUMMARY"

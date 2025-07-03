@@ -41,6 +41,8 @@ struct Appearance {
         static let buttonSecondary = secondaryGreen // セカンダリボタン
         static let buttonDisabled = Color.gray // 無効ボタン
         static let buttonDanger = Color.red // 危険ボタン
+        static let destructive = Color.red // 破壊的アクション用ボタン
+        static let textOnDestructive = Color.white // 破壊的ボタン上のテキスト
         
         // MARK: - カードカラー
         static let cardSpades = Color.black // スペード

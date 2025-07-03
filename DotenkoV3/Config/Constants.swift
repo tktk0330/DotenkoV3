@@ -20,7 +20,7 @@ struct Constants {
     
     // MARK: - 画面サイズ・レイアウト
     struct Layout {
-        static let bannerAdHeight: CGFloat = 60 // バナー広告の高さ
+        static let bannerAdHeight: CGFloat = 80 // バナー広告の高さ
         static let tabBarHeight: CGFloat = 83 // タブバーの高さ
         static let cornerRadius: CGFloat = 12 // 角丸の標準値
         static let standardPadding: CGFloat = 16 // 標準パディング
@@ -132,4 +132,20 @@ struct Constants {
         static let minPasswordLength = 6 // 最小パスワード長
         static let maxRetryAttempts = 3 // 最大リトライ回数
     }
+    
+    // MARK: - Development Settings
+    
+    /// 開発ビルドかどうかの判定
+    /// DEBUGフラグまたはTESTINGフラグが設定されている場合はtrue
+    static let isDebugBuild: Bool = {
+        #if DEBUG || TESTING
+        return true
+        #else
+        return false
+        #endif
+    }()
+    
+    /// テストUI機能を有効にするかどうか
+    /// 開発ビルドでのみテストUI機能を表示
+    static let enableTestUI: Bool = isDebugBuild
 } 
